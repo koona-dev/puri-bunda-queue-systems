@@ -1,0 +1,26 @@
+{
+  "name": "Sistem Antrian Puri Bunda",
+  "version": "1.0.0",
+  "description": "Build admin dashboard for pemesanan antrian puri bunda",
+  "author": "Widnyana",
+  "type": "commonjs",  
+  "packageManager": "pnpm@10.15.0",
+  "workspaces": [
+    "frontend/*",
+    "backend/*"
+  ],
+  "scripts": {
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "start": "pnpm -r --parallel start",
+    "dev": "concurrently \"pnpm:dev:backend\" \"pnpm:dev:frontend\"",
+    "build": "tsc -b",
+    "test": "pnpm -r test",
+    "install:all": "pnpm install -r",
+    "clean": "pnpm -r --parallel clean && rimraf node_modules pnpm-lock.json"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "typescript": "^5.9.2"
+  }
+}

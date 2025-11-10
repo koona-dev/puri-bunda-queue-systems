@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/modules/queue/utils/queue-status.enum.ts"],"sourcesContent":["export enum QueueStatus {\r\n  Waiting = \"Waiting\",\r\n  Called = \"Called\",\r\n  Done = \"Done\",\r\n  Cancelled = \"Cancelled\",\r\n}\r\n"],"names":["QueueStatus"],"mappings":";;;;+BAAYA;;;eAAAA;;;AAAL,IAAA,AAAKA,qCAAAA;;;;;WAAAA"}

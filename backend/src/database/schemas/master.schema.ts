@@ -60,7 +60,7 @@ export const patients = pgTable(
       .unique(),
     nik: varchar("nik", { length: 20 }).unique().notNull(),
     name: varchar("name", { length: 100 }).notNull(),
-    birthDate: date("birth_date").notNull(),
+    birthDate: date("birth_date", { mode: "date" }).notNull(),
     gender: gender("gender").notNull(),
     phone: varchar("phone", { length: 20 }).notNull(),
     address: text("address").notNull(),
@@ -87,10 +87,11 @@ export const doctors = pgTable(
     name: varchar("name", { length: 100 }).notNull(),
     specialization: varchar("specialization", { length: 100 }),
     phone: varchar("phone", { length: 20 }),
-    isActive: boolean("is_active").default(true).notNull(),
+    dayOfWeek: integer("day_of_week").notNull(), // 1=Monday, 7=Sunday
     startTime: time("start_time").notNull(),
     endTime: time("end_time").notNull(),
     quota: integer("quota").default(30).notNull(),
+    isActive: boolean("is_active").default(true).notNull(),
     ...timestamps,
   },
   (table) => [
@@ -132,4 +133,18 @@ export const staffRelations = relations(staff, ({ one, many }) => ({
   }),
   queues: many(queues),
   queueCalls: many(queueCalls),
+}));
+
+export const patientsRelations = relations(patients, ({ many }) => ({
+  queues: many(queues),
+}));
+
+export const doctorsRelations = relations(doctors, ({ many }) => ({
+  queues: many(queues),
+}));
+
+export const clinicRelations = relations(clinics, ({ many }) => ({
+  staff: many(staff),
+  doctor: many(doctors),
+  queues: many(queues),
 }));

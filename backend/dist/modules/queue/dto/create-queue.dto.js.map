@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/modules/queue/dto/create-queue.dto.ts"],"sourcesContent":["export class CreateQueueDto {}\r\n"],"names":["CreateQueueDto"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,IAAA,AAAMA,iBAAN,MAAMA;AAAgB"}

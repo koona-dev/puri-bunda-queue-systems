@@ -1,4 +1,54 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreatePatientDto } from './create-patient.dto';
+import { PartialType } from "@nestjs/swagger";
+import {
+  IsBoolean,
+  IsDate,
+  IsEnum,
+  IsOptional,
+  IsString,
+} from "class-validator";
+import { Gender } from "../../utils/gender.enum";
+import { PatientType } from "../../utils/patient-type.enum";
+import { PatientClass } from "../../utils/patient-class.enum";
+import { CreatePatientDto } from "./create-patient.dto";
 
-export class UpdatePatientDto extends PartialType(CreatePatientDto) {}
+export class UpdatePatientDto extends PartialType(CreatePatientDto) {
+  @IsOptional()
+  @IsString()
+  nik?: string;
+
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @IsOptional()
+  @IsDate()
+  birthDate?: Date;
+
+  @IsOptional()
+  @IsEnum(Gender)
+  gender?: Gender;
+
+  @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @IsOptional()
+  @IsString()
+  address?: string;
+
+  @IsOptional()
+  @IsEnum(PatientType)
+  patientType?: PatientType;
+
+  @IsOptional()
+  @IsEnum(PatientClass)
+  patientClass?: PatientClass;
+
+  @IsOptional()
+  @IsBoolean()
+  haveAssurance?: boolean;
+
+  @IsOptional()
+  @IsString()
+  assuranceCode?: string;
+}

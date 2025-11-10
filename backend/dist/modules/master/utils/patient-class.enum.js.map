@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/modules/master/utils/patient-class.enum.ts"],"sourcesContent":["export enum PatientClass {\r\n  third = \"Kelas 3\",\r\n  second = \"Kelas 2\",\r\n  first = \"Kelas 1\",\r\n  vip = \"VIP\",\r\n}\r\n"],"names":["PatientClass"],"mappings":";;;;+BAAYA;;;eAAAA;;;AAAL,IAAA,AAAKA,sCAAAA;;;;;WAAAA"}

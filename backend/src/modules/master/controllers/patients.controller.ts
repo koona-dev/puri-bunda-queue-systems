@@ -1,35 +1,55 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CreatePatientDto } from '../dtos/patients/create-patient.dto';
-import { PatientsService } from '../services/patients.service';
-import { UpdatePatientDto } from '../dtos/patients/update-patient.dto';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from "@nestjs/common";
+import { CreatePatientDto } from "../dtos/patients/create-patient.dto";
+import { UpdatePatientDto } from "../dtos/patients/update-patient.dto";
+import PatientsService from "../services/patients.service";
+import {
+  FindManyPatientsQueryParams,
+  FindOnePatientQueryParams,
+} from "../dtos/patients/patients-query.params";
 
-
-@Controller('patients')
+@Controller("patients")
 export class PatientsController {
   constructor(private readonly patientsService: PatientsService) {}
+
+  @Get(":patientId")
+  findById(@Param("patientId") patientId: string) {
+    return this.patientsService.findById(patientId);
+  }
+
+  @Get()
+  findOne(@Query() query: FindOnePatientQueryParams) {
+    return this.patientsService.findOne(query);
+  }
+
+  @Get()
+  findMany(@Query() query: FindManyPatientsQueryParams) {
+    return this.patientsService.findMany(query);
+  }
 
   @Post()
   create(@Body() createPatientsDto: CreatePatientDto) {
     return this.patientsService.create(createPatientsDto);
   }
 
-  @Get()
-  findAll() {
-    return this.patientsService.findAll();
+  @Patch(":patientId")
+  update(
+    @Param("patientId") patientId: string,
+    @Body() updatePatientsDto: UpdatePatientDto
+  ) {
+    return this.patientsService.update({ ...updatePatientsDto, id: patientId });
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.patientsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePatientsDto: UpdatePatientDto) {
-    return this.patientsService.update(+id, updatePatientsDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.patientsService.remove(+id);
+  @Delete(":patientId")
+  remove(@Param("patientId") patientId: string) {
+    return this.patientsService.delete(patientId);
   }
 }

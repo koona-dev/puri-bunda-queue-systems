@@ -2,14 +2,22 @@ import { relations } from "drizzle-orm";
 import {
   date,
   index,
+  integer,
   pgTable,
   text,
+  time,
   timestamp,
   uniqueIndex,
   uuid,
   varchar,
 } from "drizzle-orm/pg-core";
-import { queueStatus, queueType } from "../helpers/enums";
+import {
+  priority,
+  queueStatus,
+  queueType,
+  referenceType,
+  serviceType,
+} from "../helpers/enums";
 import { clinics, doctors, patients, staff } from "./master.schema";
 import { timestamps } from "../helpers/timestamps";
 
@@ -21,43 +29,50 @@ export const queues = pgTable(
   "queues",
   {
     id: uuid().defaultRandom().primaryKey(),
-    staffId: uuid("staff_id")
-      .references(() => staff.id, {
-        onDelete: "set null",
-      })
-      .notNull(),
-    patientId: uuid("patient_id")
-      .references(() => patients.id, {
-        onDelete: "set null",
-      })
-      .notNull(),
-    clinicId: uuid("clinic_id")
-      .references(() => clinics.id, { onDelete: "cascade" })
-      .notNull(),
-    doctorId: uuid("doctor_id")
-      .references(() => doctors.id, {
-        onDelete: "set null",
-      })
-      .notNull(),
+    patientId: integer("patient_id").references(() => patients.id, {
+      onDelete: "set null",
+    }),
+    clinicId: integer("clinic_id")
+      .notNull()
+      .references(() => clinics.id, { onDelete: "cascade" }),
+    doctorId: integer("doctor_id").references(() => doctors.id, {
+      onDelete: "set null",
+    }),
+    staffId: integer("staff_id").references(() => staff.id, {
+      onDelete: "set null",
+    }),
     queueNumber: varchar("queue_number", { length: 20 }).notNull().unique(),
     queueType: queueType("queue_type").notNull(),
+    priority: priority("priority").default("Normal").notNull(), // BARU: prioritas antrian
+    serviceType: serviceType("service_type").notNull(),
+    referenceType: referenceType("reference_type").notNull(),
+    chiefComplaint: text("chief_complaint"), // Keluhan utama
+    symptoms: text("symptoms"), // Gejala yang dirasakan
+    symptomsStartDate: date("symptoms_start_date"), // Sejak kapan
+    previousTreatment: text("previous_treatment"), // Pengobatan yang sudah dilakukan
     reservationDate: date("reservation_date"),
+    preferredTime: time("preferred_time"), // BARU: Jam yang diinginkan
     status: queueStatus("status").default("Waiting").notNull(),
-    deseases: varchar("deseases").notNull(),
     calledAt: timestamp("called_at"),
     completedAt: timestamp("completed_at"),
-    notes: text("notes"),
+    staffNotes: text("staff_notes"),
+    cancellationReason: text("cancellation_reason"),
     ...timestamps,
   },
   (table) => [
-    uniqueIndex("queue_number_idx").on(table.queueNumber),
-    index("queue_status_idx").on(table.status),
-    index("queue_type_idx").on(table.queueType),
-    index("queue_clinic_idx").on(table.clinicId),
-    index("queue_date_idx").on(table.createdAt),
-    index("queue_status_clinic_idx").on(table.status, table.clinicId),
+    uniqueIndex("queues_queue_number_idx").on(table.queueNumber),
+    index("queues_status_idx").on(table.status),
+    index("queues_type_idx").on(table.queueType),
+    index("queues_priority_idx").on(table.priority),
+    index("queues_clinic_idx").on(table.clinicId),
+    index("queues_date_idx").on(table.createdAt),
+    index("queues_status_clinic_idx").on(table.status, table.clinicId),
+    index("queues_reservation_date_idx").on(table.reservationDate),
   ]
 );
+
+export type QueuesSchema = typeof queues.$inferSelect; // return type when queried
+export type NewQueue = typeof queues.$inferInsert; // insert type
 
 export const queueCalls = pgTable(
   "queue_calls",
@@ -70,6 +85,7 @@ export const queueCalls = pgTable(
       .notNull()
       .references(() => staff.id, { onDelete: "cascade" }),
     calledAt: timestamp("called_at").defaultNow().notNull(),
+    responseTime: integer("response_time"), // Berapa lama pasien respon (dalam detik)
     ...timestamps,
   },
   (table) => [
@@ -77,6 +93,9 @@ export const queueCalls = pgTable(
     index("queue_calls_staff_idx").on(table.staffId),
   ]
 );
+
+export type QueueCallsSchema = typeof queueCalls.$inferSelect; // return type when queried
+export type NewQueueCall = typeof queueCalls.$inferInsert; // insert type
 
 // ========================================
 // RELATIONS
@@ -100,4 +119,15 @@ export const queuesRelations = relations(queues, ({ one, many }) => ({
     references: [staff.id],
   }),
   calls: many(queueCalls),
+}));
+
+export const queueCallsRelations = relations(queueCalls, ({ one }) => ({
+  staff: one(staff, {
+    fields: [queueCalls.staffId],
+    references: [staff.id],
+  }),
+  queues: one(queues, {
+    fields: [queueCalls.queueId],
+    references: [queues.id],
+  }),
 }));

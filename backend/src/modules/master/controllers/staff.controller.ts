@@ -6,37 +6,48 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from "@nestjs/common";
-import { StaffService } from "../services/staff.service";
+
 import { CreateStaffDto } from "../dtos/staff/create-staff.dto";
 import { UpdateStaffDto } from "../dtos/staff/update-satff.dto";
+import StaffService from "../services/staff.service";
+import { StaffQueryParams } from "../dtos/staff/staff-query.params";
 
 @Controller("staff")
 export class StaffController {
   constructor(private readonly staffService: StaffService) {}
+
+  @Get(":staffId")
+  findById(@Param("staffId") staffId: string) {
+    return this.staffService.findById(staffId);
+  }
+
+  @Get()
+  findOne(@Query() query: StaffQueryParams) {
+    return this.staffService.findOne(query);
+  }
+
+  @Get()
+  findAll(@Query() query: StaffQueryParams) {
+    return this.staffService.findMany(query);
+  }
 
   @Post()
   create(@Body() createStaffDto: CreateStaffDto) {
     return this.staffService.create(createStaffDto);
   }
 
-  @Get()
-  findAll() {
-    return this.staffService.findAll();
+  @Patch(":staffId")
+  update(
+    @Param("staffId") staffId: string,
+    @Body() updateStaffDto: UpdateStaffDto
+  ) {
+    return this.staffService.update({ ...updateStaffDto, id: staffId });
   }
 
-  @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.staffService.findOne(+id);
-  }
-
-  @Patch(":id")
-  update(@Param("id") id: string, @Body() updateStaffDto: UpdateStaffDto) {
-    return this.staffService.update(+id, updateStaffDto);
-  }
-
-  @Delete(":id")
-  remove(@Param("id") id: string) {
-    return this.staffService.remove(+id);
+  @Delete(":staffId")
+  remove(@Param("staffId") staffId: string) {
+    return this.staffService.delete(staffId);
   }
 }

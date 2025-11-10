@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/modules/dashboard/dto/create-dashboard.dto.ts"],"sourcesContent":["export class CreateDashboardDto {}\r\n"],"names":["CreateDashboardDto"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,IAAA,AAAMA,qBAAN,MAAMA;AAAoB"}

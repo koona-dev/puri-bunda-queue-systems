@@ -1,83 +1,147 @@
-// import * as bcrypt from "bcrypt";
-// import { drizzle } from "drizzle-orm/node-postgres";
+import { drizzle } from "drizzle-orm/node-postgres";
+import {
+  clinics,
+  doctors,
+  NewClinic,
+  NewDoctor,
+  NewPatient,
+  NewStaff,
+  patients,
+  staff,
+} from "./schemas/master.schema";
+import { generateCode } from "src/utils/generate-code";
+import { encryptPassword } from "src/utils/encrypt";
+import { PatientClass } from "src/modules/master/utils/patient-class.enum";
+import { PatientType } from "src/modules/master/utils/patient-type.enum";
+import { Gender } from "src/modules/master/utils/gender.enum";
 
-// async function seedDatabase() {
-//   console.log("Loading environment variables...");
-//   const dbConnectionString = process.env.DB_CONNECTION_STRING;
+async function seedDatabase() {
+  console.log("Loading environment variables...");
+  const dbConnectionString = process.env.DB_CONNECTION_STRING;
 
-//   console.log("DATABASE_URL:", dbConnectionString);
+  console.log("DATABASE_URL:", dbConnectionString);
 
-//   if (!dbConnectionString) {
-//     console.error("❌ Database connection string is missing.");
-//     return;
-//   }
+  if (!dbConnectionString) {
+    console.error("❌ Database connection string is missing.");
+    return;
+  }
 
-//   console.log("✅ Connecting to database...");
-//   const database = drizzle(dbConnectionString);
+  console.log("✅ Connecting to database...");
+  const database = drizzle(dbConnectionString);
 
-//   console.log("🌱 Seeding database...");
+  console.log("🌱 Seeding database...");
 
-//   try {
-//     const branchData: NewBranch = {
-//       name: "Holding Company",
-//       phone: "08123456789",
-//       address: "Tabanan, Bali, Indonesia",
-//     };
+  try {
+    const doctorsData: NewDoctor = {
+      code: await generateCode(database, doctors, doctors.code, "code", "DTR"),
+      name: "Poli Kandungan",
+      dayOfWeek: 6,
+      startTime: "08:00:00",
+      endTime: "16:00:00",
+      quota: 30,
+    };
 
-//     const insertedBranch = await database
-//       .insert(branches)
-//       .values(branchData)
-//       .returning({
-//         id: branches.id,
-//         name: branches.name,
-//       });
-//     console.log("Branch created:", insertedBranch);
+    const insertedDoctor = await database
+      .insert(doctors)
+      .values(doctorsData)
+      .returning({
+        id: doctors.id,
+        name: doctors.name,
+      });
 
-//     if (!insertedBranch) {
-//       console.error("Error seeding branch:");
-//       return;
-//     }
+    console.log("Doctor is created:", insertedDoctor);
 
-//     const userGroupData: NewUserGroups = {
-//       name: "Administrator",
-//     };
+    if (!insertedDoctor) {
+      console.error("Error seeding doctor:");
+      return;
+    }
 
-//     const insertedGroup = await database
-//       .insert(userGroups)
-//       .values(userGroupData)
-//       .returning({
-//         id: branches.id,
-//         name: branches.name,
-//       });
-//     console.log("User group created:", insertedGroup);
+    const clinicsData: NewClinic = {
+      code: await generateCode(database, clinics, clinics.code, "code", "CLC"),
+      name: "Poli Kandungan",
+    };
 
-//     if (!insertedGroup) {
-//       console.error("Error seeding user group:");
-//       return;
-//     }
+    const insertedClinic = await database
+      .insert(clinics)
+      .values(clinicsData)
+      .returning({
+        id: clinics.id,
+        name: clinics.name,
+      });
 
-//     const userData: NewUser = {
-//       name: "Admin",
-//       phone: "08123456789",
-//       username: "admin@dmcones.com",
-//       password: encryptPassword("admin911"),
-//       branchId: insertedBranch[0].id,
-//       groupId: insertedGroup[0].id,
-//       aktif: true,
-//     };
+    console.log("Clinic is created:", insertedClinic);
 
-//     const [newUser] = await database.insert(users).values(userData).returning({
-//       id: users.id,
-//       email: users.username,
-//       name: users.name,
-//     });
+    if (!insertedClinic) {
+      console.error("Error seeding clinics group:");
+      return;
+    }
 
-//     console.log("✅ User created:", newUser);
-//   } catch (error) {
-//     console.error("❌ Error seeding user:", error);
-//   }
+    const staffData: NewStaff = {
+      code: await generateCode(database, staff, staff.code, "code", "STF"),
+      loketNumber: "01",
+      username: "admin",
+      email: "admin@dmcones.com",
+      password: encryptPassword("admin911"),
+      name: "Holding Company",
+      phone: "08123456789",
+      clinicId: insertedClinic[0].id,
+      address: "Tabanan, Bali, Indonesia",
+    };
 
-//   console.log("🎉 Seeding Finished.");
-// }
+    const insertedStaff = await database
+      .insert(staff)
+      .values(staffData)
+      .returning({
+        id: staff.id,
+        name: staff.name,
+      });
 
-// seedDatabase();
+    console.log("Staff created:", insertedStaff);
+
+    if (!insertedStaff) {
+      console.error("Error seeding staff:");
+      return;
+    }
+
+    const patientsData: NewPatient = {
+      code: await generateCode(database, patients, patients.code, "code", "PTN"),
+      registrationNumber: await generateCode(
+        database,
+        patients,
+        patients.registrationNumber,
+        "registrationNumber", "REG"
+      ),
+      name: "Ryan Santoso",
+      phone: "08123456789",
+      birthDate: new Date("2000-01-01"),
+      gender: Gender.l,
+      nik: "1234567890",
+      patientClass: PatientClass.second,
+      patientType: PatientType.assurance,
+      address: "Tabanan, Bali, Indonesia",
+      haveAssurance: true,
+      assuranceCode: await generateCode(
+        database,
+        patients,
+        patients.assuranceCode,
+        "assuranceCode", "ASSR"
+      ),
+    };
+
+    const [newPatient] = await database
+      .insert(patients)
+      .values(patientsData)
+      .returning({
+        id: patients.id,
+        name: patients.name,
+      });
+
+    console.log("✅ Patient created:", newPatient);
+  } catch (error) {
+    console.error("❌ Error seeding patient:", error);
+  }
+
+  console.log("🎉 Seeding Finished.");
+}
+
+seedDatabase();

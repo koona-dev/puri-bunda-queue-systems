@@ -77,7 +77,7 @@ class ClinicsService {
     try {
       const clinicData: Clinics = {
         ...data,
-        code: await generateCode(this.db, clinics, clinics.code, "code"),
+        code: await generateCode(this.db, clinics, clinics.code, "code", "CLC"),
         isActive: true,
       };
 

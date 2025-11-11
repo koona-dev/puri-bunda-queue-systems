@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Build admin dashboard for pemesanan antrian puri bunda",
   "author": "Widnyana",
-  "type": "commonjs",  
+  "type": "commonjs",
   "packageManager": "pnpm@10.15.0",
   "workspaces": [
     "frontend/*",
@@ -22,5 +22,6 @@
   "devDependencies": {
     "concurrently": "^9.2.1",
     "typescript": "^5.9.2"
-  }
+  },
+  "dependencies": {}
 }

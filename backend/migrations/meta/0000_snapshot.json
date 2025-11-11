@@ -1,5 +1,5 @@
 {
-  "id": "5ac2e9dc-b5ce-4736-a94f-b4020d9f307e",
+  "id": "594c80e2-de5a-4090-96e5-572c9d8f532a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -17,13 +17,13 @@
         },
         "code": {
           "name": "code",
-          "type": "varchar(10)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "name": {
           "name": "name",
-          "type": "varchar(100)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -120,34 +120,33 @@
         },
         "code": {
           "name": "code",
-          "type": "varchar(20)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "name": {
           "name": "name",
-          "type": "varchar(100)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "specialization": {
           "name": "specialization",
-          "type": "varchar(100)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
         "phone": {
           "name": "phone",
-          "type": "varchar(20)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "is_active": {
-          "name": "is_active",
-          "type": "boolean",
+        "day_of_week": {
+          "name": "day_of_week",
+          "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "default": true
+          "notNull": true
         },
         "start_time": {
           "name": "start_time",
@@ -167,6 +166,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": 30
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
         },
         "created_at": {
           "name": "created_at",
@@ -254,19 +260,19 @@
         },
         "registration_number": {
           "name": "registration_number",
-          "type": "varchar(20)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "nik": {
           "name": "nik",
-          "type": "varchar(20)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "name": {
           "name": "name",
-          "type": "varchar(100)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -285,7 +291,7 @@
         },
         "phone": {
           "name": "phone",
-          "type": "varchar(20)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -426,49 +432,49 @@
         },
         "code": {
           "name": "code",
-          "type": "varchar(20)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "loket_number": {
           "name": "loket_number",
-          "type": "varchar(10)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "nik": {
           "name": "nik",
-          "type": "varchar(16)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
         "name": {
           "name": "name",
-          "type": "varchar(100)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "username": {
           "name": "username",
-          "type": "varchar(50)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "email": {
           "name": "email",
-          "type": "varchar(100)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "password_hash": {
           "name": "password_hash",
-          "type": "varchar(255)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "phone": {
           "name": "phone",
-          "type": "varchar(20)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -638,6 +644,12 @@
           "notNull": true,
           "default": "now()"
         },
+        "response_time": {
+          "name": "response_time",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
@@ -735,17 +747,11 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "staff_id": {
-          "name": "staff_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
         "patient_id": {
           "name": "patient_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "clinic_id": {
           "name": "clinic_id",
@@ -757,11 +763,17 @@
           "name": "doctor_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "staff_id": {
+          "name": "staff_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
         },
         "queue_number": {
           "name": "queue_number",
-          "type": "varchar(20)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
@@ -772,9 +784,61 @@
           "primaryKey": false,
           "notNull": true
         },
+        "priority": {
+          "name": "priority",
+          "type": "priority",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'Normal'"
+        },
+        "service_type": {
+          "name": "service_type",
+          "type": "service_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reference_type": {
+          "name": "reference_type",
+          "type": "reference_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "chief_complaint": {
+          "name": "chief_complaint",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "symptoms": {
+          "name": "symptoms",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "symptoms_start_date": {
+          "name": "symptoms_start_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "previous_treatment": {
+          "name": "previous_treatment",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "reservation_date": {
           "name": "reservation_date",
           "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "preferred_time": {
+          "name": "preferred_time",
+          "type": "time",
           "primaryKey": false,
           "notNull": false
         },
@@ -785,12 +849,6 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'Waiting'"
-        },
-        "deseases": {
-          "name": "deseases",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
         },
         "called_at": {
           "name": "called_at",
@@ -804,8 +862,14 @@
           "primaryKey": false,
           "notNull": false
         },
-        "notes": {
-          "name": "notes",
+        "staff_notes": {
+          "name": "staff_notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cancellation_reason": {
+          "name": "cancellation_reason",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -831,8 +895,8 @@
         }
       },
       "indexes": {
-        "queue_number_idx": {
-          "name": "queue_number_idx",
+        "queues_queue_number_idx": {
+          "name": "queues_queue_number_idx",
           "columns": [
             {
               "expression": "queue_number",
@@ -846,8 +910,8 @@
           "method": "btree",
           "with": {}
         },
-        "queue_status_idx": {
-          "name": "queue_status_idx",
+        "queues_status_idx": {
+          "name": "queues_status_idx",
           "columns": [
             {
               "expression": "status",
@@ -861,8 +925,8 @@
           "method": "btree",
           "with": {}
         },
-        "queue_type_idx": {
-          "name": "queue_type_idx",
+        "queues_type_idx": {
+          "name": "queues_type_idx",
           "columns": [
             {
               "expression": "queue_type",
@@ -876,8 +940,23 @@
           "method": "btree",
           "with": {}
         },
-        "queue_clinic_idx": {
-          "name": "queue_clinic_idx",
+        "queues_priority_idx": {
+          "name": "queues_priority_idx",
+          "columns": [
+            {
+              "expression": "priority",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "queues_clinic_idx": {
+          "name": "queues_clinic_idx",
           "columns": [
             {
               "expression": "clinic_id",
@@ -891,8 +970,8 @@
           "method": "btree",
           "with": {}
         },
-        "queue_date_idx": {
-          "name": "queue_date_idx",
+        "queues_date_idx": {
+          "name": "queues_date_idx",
           "columns": [
             {
               "expression": "created_at",
@@ -906,8 +985,8 @@
           "method": "btree",
           "with": {}
         },
-        "queue_status_clinic_idx": {
-          "name": "queue_status_clinic_idx",
+        "queues_status_clinic_idx": {
+          "name": "queues_status_clinic_idx",
           "columns": [
             {
               "expression": "status",
@@ -926,22 +1005,24 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "queues_reservation_date_idx": {
+          "name": "queues_reservation_date_idx",
+          "columns": [
+            {
+              "expression": "reservation_date",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
-        "queues_staff_id_staff_id_fk": {
-          "name": "queues_staff_id_staff_id_fk",
-          "tableFrom": "queues",
-          "tableTo": "staff",
-          "columnsFrom": [
-            "staff_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
         "queues_patient_id_patients_id_fk": {
           "name": "queues_patient_id_patients_id_fk",
           "tableFrom": "queues",
@@ -980,6 +1061,19 @@
           ],
           "onDelete": "set null",
           "onUpdate": "no action"
+        },
+        "queues_staff_id_staff_id_fk": {
+          "name": "queues_staff_id_staff_id_fk",
+          "tableFrom": "queues",
+          "tableTo": "staff",
+          "columnsFrom": [
+            "staff_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -1006,13 +1100,43 @@
         "P"
       ]
     },
+    "public.patient_class": {
+      "name": "patient_class",
+      "schema": "public",
+      "values": [
+        "Kelas 3",
+        "Kelas 2",
+        "Kelas 1",
+        "VIP"
+      ]
+    },
+    "public.patient_type": {
+      "name": "patient_type",
+      "schema": "public",
+      "values": [
+        "Umum",
+        "Asuransi",
+        "Rujukan"
+      ]
+    },
+    "public.priority": {
+      "name": "priority",
+      "schema": "public",
+      "values": [
+        "Normal",
+        "Urgent",
+        "Emergency"
+      ]
+    },
     "public.queue_status": {
       "name": "queue_status",
       "schema": "public",
       "values": [
+        "Draft",
         "Waiting",
         "Called",
         "Done",
+        "On-Hold",
         "Cancelled"
       ]
     },
@@ -1020,8 +1144,30 @@
       "name": "queue_type",
       "schema": "public",
       "values": [
-        "Reservation",
-        "Walkin"
+        "Reservasi",
+        "Walk-In"
+      ]
+    },
+    "public.reference_type": {
+      "name": "reference_type",
+      "schema": "public",
+      "values": [
+        "Konsultasi",
+        "Checkup",
+        "Perawatan",
+        "Lab",
+        "Radiologi",
+        "Vaksin",
+        "Operasi"
+      ]
+    },
+    "public.service_type": {
+      "name": "service_type",
+      "schema": "public",
+      "values": [
+        "Rawat Jalan",
+        "Rawat Inap",
+        "UGD"
       ]
     }
   },
@@ -1032,7 +1178,7 @@
   "views": {
     "public.dashboard_summary": {
       "columns": {},
-      "definition": "select COUNT(*) FILTER (WHERE status = 'Waiting') as \"total_waiting\", COUNT(*) FILTER (WHERE status = 'Called') as \"total_called\", COUNT(*) FILTER (WHERE status = 'Done') as \"total_done\", COUNT(*) FILTER (WHERE status = 'Cancelled') as \"total_cancelled\", COUNT(*) FILTER (WHERE queue_type = 'Reservation') as \"total_reservation\", COUNT(*) FILTER (WHERE queue_type = 'Walkin') as \"total_walkin\", \n      AVG(EXTRACT(EPOCH FROM (completed_at - called_at))/60) \n      FILTER (WHERE completed_at IS NOT NULL AND called_at IS NOT NULL)\n     as \"avg_service_time_minutes\", NOW() as \"last_updated\" from \"queues\" where DATE(created_at) = CURRENT_DATE",
+      "definition": "select COUNT(*) FILTER (WHERE status = 'Waiting') as \"total_waiting\", COUNT(*) FILTER (WHERE status = 'Called') as \"total_called\", COUNT(*) FILTER (WHERE status = 'Done') as \"total_done\", COUNT(*) FILTER (WHERE status = 'Cancelled') as \"total_cancelled\", COUNT(*) FILTER (WHERE queue_type = 'Reservasi') as \"total_reservation\", COUNT(*) FILTER (WHERE queue_type = 'Walk-In') as \"total_walkin\", \n      AVG(EXTRACT(EPOCH FROM (completed_at - called_at))/60) \n      FILTER (WHERE completed_at IS NOT NULL AND called_at IS NOT NULL)\n     as \"avg_service_time_minutes\", NOW() as \"last_updated\" from \"queues\" where DATE(created_at) = CURRENT_DATE",
       "name": "dashboard_summary",
       "schema": "public",
       "isExisting": false,
@@ -1040,7 +1186,7 @@
     },
     "public.hourly_queue_distribution": {
       "columns": {},
-      "definition": "select EXTRACT(HOUR FROM created_at) as \"hour\", COUNT(*) FILTER (WHERE queue_type = 'Reservation') as \"total_reservation\", COUNT(*) FILTER (WHERE queue_type = 'Walkin') as \"total_walkin\", COUNT(*) as \"total_queues\", \n      AVG(EXTRACT(EPOCH FROM (completed_at - called_at))/60) \n      FILTER (WHERE completed_at IS NOT NULL)\n     as \"avg_processing_minutes\" from \"queues\" where DATE(created_at) = CURRENT_DATE group by EXTRACT(HOUR FROM created_at) order by hour",
+      "definition": "select EXTRACT(HOUR FROM created_at) as \"hour\", COUNT(*) FILTER (WHERE queue_type = 'Reservasi') as \"total_reservation\", COUNT(*) FILTER (WHERE queue_type = 'Walk-In') as \"total_walkin\", COUNT(*) as \"total_queues\", \n      AVG(EXTRACT(EPOCH FROM (completed_at - called_at))/60) \n      FILTER (WHERE completed_at IS NOT NULL)\n     as \"avg_processing_minutes\" from \"queues\" where DATE(created_at) = CURRENT_DATE group by EXTRACT(HOUR FROM created_at) order by hour",
       "name": "hourly_queue_distribution",
       "schema": "public",
       "isExisting": false,
@@ -1057,13 +1203,13 @@
         },
         "code": {
           "name": "code",
-          "type": "varchar(10)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "name": {
           "name": "name",
-          "type": "varchar(100)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         }
@@ -1085,13 +1231,13 @@
         },
         "code": {
           "name": "code",
-          "type": "varchar(20)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
         "loket_number": {
           "name": "loket_number",
-          "type": "varchar(10)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         }

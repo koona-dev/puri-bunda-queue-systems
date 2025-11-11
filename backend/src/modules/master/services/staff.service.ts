@@ -89,7 +89,7 @@ class StaffService {
         ...data,
         isActive: true,
 
-        code: await generateCode(this.db, staff, staff.code, "code"),
+        code: await generateCode(this.db, staff, staff.code, "code", "STF"),
       };
 
       const staffRecord = await this.db

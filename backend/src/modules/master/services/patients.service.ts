@@ -124,12 +124,13 @@ class PatientsService {
     try {
       const patientData: Patients = {
         ...data,
-        code: await generateCode(this.db, patients, patients.code, "code"),
+        code: await generateCode(this.db, patients, patients.code, "code", "PTN"),
         registrationNumber: await generateCode(
           this.db,
           patients,
           patients.registrationNumber,
-          "registrationNumber"
+          "registrationNumber",
+          "REG"
         ),
       };
 

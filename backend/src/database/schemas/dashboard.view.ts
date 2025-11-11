@@ -27,11 +27,11 @@ export const dashboardSummary = pgMaterializedView("dashboard_summary").as(
             "total_cancelled"
           ),
         totalReservation:
-          sql<number>`COUNT(*) FILTER (WHERE queue_type = 'Reservation')`.as(
+          sql<number>`COUNT(*) FILTER (WHERE queue_type = 'Reservasi')`.as(
             "total_reservation"
           ),
         totalWalkin:
-          sql<number>`COUNT(*) FILTER (WHERE queue_type = 'Walkin')`.as(
+          sql<number>`COUNT(*) FILTER (WHERE queue_type = 'Walk-In')`.as(
             "total_walkin"
           ),
         avgServiceTimeMinutes: sql<number>`
@@ -126,11 +126,11 @@ export const hourlyQueueDistribution = pgMaterializedView(
     .select({
       hour: sql<number>`EXTRACT(HOUR FROM created_at)`.as("hour"),
       totalReservation:
-        sql<number>`COUNT(*) FILTER (WHERE queue_type = 'Reservation')`.as(
+        sql<number>`COUNT(*) FILTER (WHERE queue_type = 'Reservasi')`.as(
           "total_reservation"
         ),
       totalWalkin:
-        sql<number>`COUNT(*) FILTER (WHERE queue_type = 'Walkin')`.as(
+        sql<number>`COUNT(*) FILTER (WHERE queue_type = 'Walk-In')`.as(
           "total_walkin"
         ),
       totalQueues: sql<number>`COUNT(*)`.as("total_queues"),

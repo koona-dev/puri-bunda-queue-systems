@@ -4,15 +4,15 @@ import { PgColumn, PgTable } from "drizzle-orm/pg-core";
 import { DBSchemaType } from "src/database/schemas";
 
 export async function generateCode(
-  db: NodePgDatabase<DBSchemaType>,
+  db: NodePgDatabase<DBSchemaType | Record<string, never>>,
   schema: PgTable,
   field: PgColumn,
-  key: string
-): Promise<string> {
-  const prefix = "DM";
+  key: string,
+  prefix: string
+): Promise<string> {  
   const now = new Date();
 
-  const datePart = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, "0")}/${String(now.getDate()).padStart(2, "0")}`;
+  const datePart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
   const latestData = await db
     .select()
@@ -24,11 +24,11 @@ export async function generateCode(
   if (latestData && latestData.length > 0) {
     // Type assertion
     const codeValue = (latestData[0] as any)[key] as string;
-    const parts = codeValue.split("/");
+    const parts = codeValue.split("-");
     const lastNum = parseInt(parts[1], 10);
     nextNumber = lastNum + 1;
   }
 
-  const newCode = `${prefix}${String(nextNumber).padStart(3, "0")}/${datePart}`;
+  const newCode = `${prefix}-${datePart}-${String(nextNumber).padStart(3, "0")}`;
   return newCode;
 }

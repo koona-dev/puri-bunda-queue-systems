@@ -29,19 +29,19 @@ export const queues = pgTable(
   "queues",
   {
     id: uuid().defaultRandom().primaryKey(),
-    patientId: integer("patient_id").references(() => patients.id, {
+    patientId: uuid("patient_id").references(() => patients.id, {
       onDelete: "set null",
     }),
-    clinicId: integer("clinic_id")
+    clinicId: uuid("clinic_id")
       .notNull()
       .references(() => clinics.id, { onDelete: "cascade" }),
-    doctorId: integer("doctor_id").references(() => doctors.id, {
+    doctorId: uuid("doctor_id").references(() => doctors.id, {
       onDelete: "set null",
     }),
-    staffId: integer("staff_id").references(() => staff.id, {
+    staffId: uuid("staff_id").references(() => staff.id, {
       onDelete: "set null",
     }),
-    queueNumber: varchar("queue_number", { length: 20 }).notNull().unique(),
+    queueNumber: varchar("queue_number").notNull().unique(),
     queueType: queueType("queue_type").notNull(),
     priority: priority("priority").default("Normal").notNull(), // BARU: prioritas antrian
     serviceType: serviceType("service_type").notNull(),

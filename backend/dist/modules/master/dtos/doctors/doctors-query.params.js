@@ -9,6 +9,7 @@ Object.defineProperty(exports, "DoctorsQueryParams", {
     }
 });
 const _classvalidator = require("class-validator");
+const _classtransformer = require("class-transformer");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -47,7 +48,8 @@ _ts_decorate([
 ], DoctorsQueryParams.prototype, "isActive", void 0);
 _ts_decorate([
     (0, _classvalidator.IsOptional)(),
-    (0, _classvalidator.IsDate)(),
+    (0, _classvalidator.IsDateString)(),
+    (0, _classtransformer.Type)(()=>Date),
     _ts_metadata("design:type", typeof Date === "undefined" ? Object : Date)
 ], DoctorsQueryParams.prototype, "createdAt", void 0);
 

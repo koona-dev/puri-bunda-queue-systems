@@ -29,34 +29,40 @@ const _masterschema = require("./master.schema");
 const _timestamps = require("../helpers/timestamps");
 const queues = (0, _pgcore.pgTable)("queues", {
     id: (0, _pgcore.uuid)().defaultRandom().primaryKey(),
-    patientId: (0, _pgcore.integer)("patient_id").references(()=>_masterschema.patients.id, {
+    patientId: (0, _pgcore.uuid)("patient_id").references(()=>_masterschema.patients.id, {
         onDelete: "set null"
-    }),
-    clinicId: (0, _pgcore.integer)("clinic_id").notNull().references(()=>_masterschema.clinics.id, {
+    }).notNull(),
+    clinicId: (0, _pgcore.uuid)("clinic_id").references(()=>_masterschema.clinics.id, {
         onDelete: "cascade"
-    }),
-    doctorId: (0, _pgcore.integer)("doctor_id").references(()=>_masterschema.doctors.id, {
+    }).notNull(),
+    doctorId: (0, _pgcore.uuid)("doctor_id").references(()=>_masterschema.doctors.id, {
         onDelete: "set null"
-    }),
-    staffId: (0, _pgcore.integer)("staff_id").references(()=>_masterschema.staff.id, {
+    }).notNull(),
+    staffId: (0, _pgcore.uuid)("staff_id").references(()=>_masterschema.staff.id, {
         onDelete: "set null"
-    }),
-    queueNumber: (0, _pgcore.varchar)("queue_number", {
-        length: 20
-    }).notNull().unique(),
+    }).notNull(),
+    queueNumber: (0, _pgcore.varchar)("queue_number").notNull().unique(),
     queueType: (0, _enums.queueType)("queue_type").notNull(),
     priority: (0, _enums.priority)("priority").default("Normal").notNull(),
     serviceType: (0, _enums.serviceType)("service_type").notNull(),
     referenceType: (0, _enums.referenceType)("reference_type").notNull(),
-    chiefComplaint: (0, _pgcore.text)("chief_complaint"),
-    symptoms: (0, _pgcore.text)("symptoms"),
-    symptomsStartDate: (0, _pgcore.date)("symptoms_start_date"),
+    chiefComplaint: (0, _pgcore.text)("chief_complaint").notNull(),
+    symptoms: (0, _pgcore.text)("symptoms").notNull(),
+    symptomsStartDate: (0, _pgcore.date)("symptoms_start_date", {
+        mode: "date"
+    }).notNull(),
     previousTreatment: (0, _pgcore.text)("previous_treatment"),
-    reservationDate: (0, _pgcore.date)("reservation_date"),
-    preferredTime: (0, _pgcore.time)("preferred_time"),
+    reservationDate: (0, _pgcore.date)("reservation_date", {
+        mode: "date"
+    }).notNull(),
+    preferredTime: (0, _pgcore.time)("preferred_time").notNull(),
     status: (0, _enums.queueStatus)("status").default("Waiting").notNull(),
-    calledAt: (0, _pgcore.timestamp)("called_at"),
-    completedAt: (0, _pgcore.timestamp)("completed_at"),
+    calledAt: (0, _pgcore.timestamp)("called_at", {
+        mode: "date"
+    }),
+    completedAt: (0, _pgcore.timestamp)("completed_at", {
+        mode: "date"
+    }),
     staffNotes: (0, _pgcore.text)("staff_notes"),
     cancellationReason: (0, _pgcore.text)("cancellation_reason"),
     ..._timestamps.timestamps
@@ -76,9 +82,9 @@ const queueCalls = (0, _pgcore.pgTable)("queue_calls", {
         onDelete: "cascade"
     }),
     staffId: (0, _pgcore.uuid)("staff_id").notNull().references(()=>_masterschema.staff.id, {
-        onDelete: "cascade"
+        onDelete: "set null"
     }),
-    calledAt: (0, _pgcore.timestamp)("called_at").defaultNow().notNull(),
+    calledAt: (0, _pgcore.timestamp)("called_at").defaultNow(),
     responseTime: (0, _pgcore.integer)("response_time"),
     ..._timestamps.timestamps
 }, (table)=>[

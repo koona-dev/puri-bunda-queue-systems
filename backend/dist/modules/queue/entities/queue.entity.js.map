@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../src/modules/queue/entities/queue.entity.ts"],"sourcesContent":["export class Queue {}\r\n"],"names":["Queue"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,IAAA,AAAMA,QAAN,MAAMA;AAAO"}

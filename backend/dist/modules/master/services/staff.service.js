@@ -29,15 +29,6 @@ function _ts_param(paramIndex, decorator) {
 }
 let StaffService = class StaffService {
     // ===========[Queries]===========
-    async findById(id) {
-        const staffRecord = await this.db.query.staff.findFirst({
-            where: (staff, { eq })=>eq(staff.id, id)
-        });
-        if (!staffRecord) {
-            return null;
-        }
-        return staffRecord;
-    }
     async findOne(query) {
         const staffRecord = await this.db.query.staff.findFirst({
             where: (staff, { eq, and })=>{
@@ -85,7 +76,7 @@ let StaffService = class StaffService {
             const staffData = {
                 ...data,
                 isActive: true,
-                code: await (0, _generatecode.generateCode)(this.db, _masterschema.staff, _masterschema.staff.code, "code")
+                code: await (0, _generatecode.generateCode)(this.db, _masterschema.staff, "code", "STF")
             };
             const staffRecord = await this.db.insert(_masterschema.staff).values(staffData).returning();
             return staffRecord[0];

@@ -10,7 +10,7 @@ import {
 } from "../entities/patients.entity";
 import { toEnum } from "src/utils/converter";
 import { Gender } from "../utils/gender.enum";
-import { patients } from "src/database/schemas/master.schema";
+import { NewPatient, patients } from "src/database/schemas/master.schema";
 import { generateCode } from "src/utils/generate-code";
 import { PatientClass } from "../utils/patient-class.enum";
 import { PatientType } from "../utils/patient-type.enum";
@@ -19,30 +19,6 @@ class PatientsService {
   constructor(@Inject("DB_PG") private db: NodePgDatabase<DBSchemaType>) {}
 
   // ===========[Queries]===========
-  async findById(id: string): Promise<Patients | null> {
-    const patientRecord = await this.db.query.patients.findFirst({
-      where: (patient, { eq }) => eq(patient.id, id),
-    });
-
-    if (!patientRecord) {
-      return null;
-    }
-
-    const patientEntity: Patients = {
-      ...patientRecord,
-      patientClass: toEnum(
-        patientRecord.patientClass,
-        Object.values(PatientClass)
-      ),
-      patientType: toEnum(
-        patientRecord.patientType,
-        Object.values(PatientType)
-      ),
-      gender: toEnum(patientRecord.gender, Object.values(Gender)),
-    };
-
-    return patientEntity;
-  }
 
   async findOne(query: PatientsProps): Promise<Patients | null> {
     const patientRecord = await this.db.query.patients.findFirst({
@@ -122,13 +98,12 @@ class PatientsService {
   // ===========[Commands]===========
   async create(data: CreatePatient): Promise<Patients | undefined> {
     try {
-      const patientData: Patients = {
+      const patientData: NewPatient = {
         ...data,
-        code: await generateCode(this.db, patients, patients.code, "code", "PTN"),
+        code: await generateCode(this.db, patients, "code", "PTN"),
         registrationNumber: await generateCode(
           this.db,
           patients,
-          patients.registrationNumber,
           "registrationNumber",
           "REG"
         ),

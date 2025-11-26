@@ -12,7 +12,7 @@ const _nestjsdrizzlepg = require("@knaadh/nestjs-drizzle-pg");
 const _common = require("@nestjs/common");
 const _config = require("@nestjs/config");
 const _cqrs = require("@nestjs/cqrs");
-const _queuemodule = require("./modules/queue/queue.module");
+const _queuesmodule = require("./modules/queues/queues.module");
 const _mastermodule = require("./modules/master/master.module");
 const _schemas = require("./database/schemas");
 const _dashboardmodule = require("./modules/dashboard/dashboard.module");
@@ -51,7 +51,7 @@ AppModule = _ts_decorate([
                 }
             }),
             _mastermodule.MasterModule,
-            _queuemodule.QueueModule,
+            _queuesmodule.QueueModule,
             _dashboardmodule.DashboardModule
         ]
     })

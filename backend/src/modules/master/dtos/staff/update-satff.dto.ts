@@ -1,9 +1,11 @@
 import {
-  IsBoolean,
-  IsDate,
+  IsBoolean,  
+  IsDateString,
   IsOptional,  
   IsString,
 } from "class-validator";
+import { Type } from "class-transformer";
+
 
 export class UpdateStaffDto {
   @IsOptional()
@@ -39,6 +41,7 @@ export class UpdateStaffDto {
   isActive?: boolean;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
+@Type(() => Date)
   lastLoginAt?: Date;
 }

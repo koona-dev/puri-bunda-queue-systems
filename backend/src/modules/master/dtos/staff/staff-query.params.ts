@@ -1,4 +1,5 @@
-import { IsBoolean, IsDate, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsDateString, IsOptional, IsString } from "class-validator";
+import { Type } from "class-transformer";
 
 export class StaffQueryParams {
   @IsOptional()
@@ -38,6 +39,7 @@ export class StaffQueryParams {
   isActive?: boolean;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
+@Type(() => Date)
   createdAt?: Date;
 }

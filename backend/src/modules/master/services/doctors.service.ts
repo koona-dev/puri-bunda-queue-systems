@@ -16,17 +16,6 @@ class DoctorsService {
   constructor(@Inject("DB_PG") private db: NodePgDatabase<DBSchemaType>) {}
 
   // ===========[Queries]===========
-  async findById(id: string): Promise<Doctors | null> {
-    const doctorRecord = await this.db.query.doctors.findFirst({
-      where: (doctor, { eq }) => eq(doctor.id, id),
-    });
-
-    if (!doctorRecord) {
-      return null;
-    }
-
-    return doctorRecord;
-  }
 
   async findOne(query: DoctorsProps): Promise<Doctors | null> {
     const doctorRecord = await this.db.query.doctors.findFirst({
@@ -81,7 +70,7 @@ class DoctorsService {
     try {
       const doctorData: Doctors = {
         ...data,
-        code: await generateCode(this.db, doctors, doctors.code, "code", "DTR"),
+        code: await generateCode(this.db, doctors, "code", "DTR"),
         isActive: true,
       };
 

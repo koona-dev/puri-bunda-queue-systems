@@ -34,8 +34,8 @@ const dashboardSummary = (0, _pgcore.pgMaterializedView)("dashboard_summary").as
         totalCalled: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE status = 'Called')`.as("total_called"),
         totalDone: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE status = 'Done')`.as("total_done"),
         totalCancelled: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE status = 'Cancelled')`.as("total_cancelled"),
-        totalReservation: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE queue_type = 'Reservation')`.as("total_reservation"),
-        totalWalkin: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE queue_type = 'Walkin')`.as("total_walkin"),
+        totalReservation: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE queue_type = 'Reservasi')`.as("total_reservation"),
+        totalWalkin: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE queue_type = 'Walk-In')`.as("total_walkin"),
         avgServiceTimeMinutes: (0, _drizzleorm.sql)`
       AVG(EXTRACT(EPOCH FROM (completed_at - called_at))/60) 
       FILTER (WHERE completed_at IS NOT NULL AND called_at IS NOT NULL)
@@ -71,8 +71,8 @@ const staffPerformance = (0, _pgcore.pgMaterializedView)("staff_performance").as
     }).from(_masterschema.staff).leftJoin(_masterschema.clinics, (0, _drizzleorm.sql)`${_masterschema.staff.clinicId} = ${_masterschema.clinics.id}`).leftJoin(_queueschema.queues, (0, _drizzleorm.sql)`${_queueschema.queues.staffId} = ${_masterschema.staff.id} AND ${_queueschema.queues.status} = 'Done' AND DATE(${_queueschema.queues.createdAt}) = CURRENT_DATE`).leftJoin(_queueschema.queueCalls, (0, _drizzleorm.sql)`${_queueschema.queueCalls.queueId} = ${_queueschema.queues.id}`).where((0, _drizzleorm.sql)`${_masterschema.staff.isActive} = true`).groupBy(_masterschema.staff.id, _masterschema.staff.code, _masterschema.staff.name, _masterschema.staff.loketNumber, _masterschema.clinics.name));
 const hourlyQueueDistribution = (0, _pgcore.pgMaterializedView)("hourly_queue_distribution").as((qb)=>qb.select({
         hour: (0, _drizzleorm.sql)`EXTRACT(HOUR FROM created_at)`.as("hour"),
-        totalReservation: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE queue_type = 'Reservation')`.as("total_reservation"),
-        totalWalkin: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE queue_type = 'Walkin')`.as("total_walkin"),
+        totalReservation: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE queue_type = 'Reservasi')`.as("total_reservation"),
+        totalWalkin: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE queue_type = 'Walk-In')`.as("total_walkin"),
         totalQueues: (0, _drizzleorm.sql)`COUNT(*)`.as("total_queues"),
         avgProcessingMinutes: (0, _drizzleorm.sql)`
       AVG(EXTRACT(EPOCH FROM (completed_at - called_at))/60) 

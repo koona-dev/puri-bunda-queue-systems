@@ -1,32 +1,35 @@
-import { desc, like } from "drizzle-orm";
+import { desc, sql } from "drizzle-orm";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import { PgColumn, PgTable } from "drizzle-orm/pg-core";
+import { PgTable } from "drizzle-orm/pg-core";
 import { DBSchemaType } from "src/database/schemas";
 
 export async function generateCode(
   db: NodePgDatabase<DBSchemaType | Record<string, never>>,
   schema: PgTable,
-  field: PgColumn,
   key: string,
   prefix: string
-): Promise<string> {  
+): Promise<string> {
   const now = new Date();
 
   const datePart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
   const latestData = await db
-    .select()
+    .select({
+      lastNumber: sql<number>`
+      CAST(substring(${schema[key]} from '(\\d+)$') AS INTEGER)
+    `,
+    })
     .from(schema)
-    .where(like(field, `${datePart}%`))
-    .orderBy(desc(field));
+    .orderBy(
+      desc(
+        sql<number>`CAST(substring(${schema[key]} from '(\\d+)$') AS INTEGER)`
+      )
+    )
+    .limit(1);
 
   let nextNumber = 1;
   if (latestData && latestData.length > 0) {
-    // Type assertion
-    const codeValue = (latestData[0] as any)[key] as string;
-    const parts = codeValue.split("-");
-    const lastNum = parseInt(parts[1], 10);
-    nextNumber = lastNum + 1;
+    nextNumber = latestData[0].lastNumber + 1;
   }
 
   const newCode = `${prefix}-${datePart}-${String(nextNumber).padStart(3, "0")}`;

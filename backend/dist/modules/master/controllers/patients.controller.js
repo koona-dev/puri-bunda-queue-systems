@@ -33,9 +33,6 @@ function _ts_param(paramIndex, decorator) {
     };
 }
 let PatientsController = class PatientsController {
-    findById(patientId) {
-        return this.patientsService.findById(patientId);
-    }
     findOne(query) {
         return this.patientsService.findOne(query);
     }
@@ -59,15 +56,6 @@ let PatientsController = class PatientsController {
     }
 };
 _ts_decorate([
-    (0, _common.Get)(":patientId"),
-    _ts_param(0, (0, _common.Param)("patientId")),
-    _ts_metadata("design:type", Function),
-    _ts_metadata("design:paramtypes", [
-        String
-    ]),
-    _ts_metadata("design:returntype", void 0)
-], PatientsController.prototype, "findById", null);
-_ts_decorate([
     (0, _common.Get)(),
     _ts_param(0, (0, _common.Query)()),
     _ts_metadata("design:type", Function),
@@ -77,7 +65,7 @@ _ts_decorate([
     _ts_metadata("design:returntype", void 0)
 ], PatientsController.prototype, "findOne", null);
 _ts_decorate([
-    (0, _common.Get)(),
+    (0, _common.Get)("list"),
     _ts_param(0, (0, _common.Query)()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [

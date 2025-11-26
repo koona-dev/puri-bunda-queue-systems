@@ -53,8 +53,8 @@ const queueStatus = (0, _pgcore.pgEnum)("queue_status", [
     "Draft",
     "Waiting",
     "Called",
-    "Done",
     "On-Hold",
+    "Done",
     "Cancelled"
 ]);
 const patientType = (0, _pgcore.pgEnum)("patient_type", [

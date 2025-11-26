@@ -1,11 +1,13 @@
 import {
   IsBoolean,
-  IsDate,
+  IsDateString,
   IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
 } from "class-validator";
+import { Type } from "class-transformer";
+
 import { Gender } from "../../utils/gender.enum";
 import { PatientType } from "../../utils/patient-type.enum";
 import { PatientClass } from "../../utils/patient-class.enum";
@@ -20,7 +22,8 @@ export class CreatePatientDto {
   name: string;
 
   @IsNotEmpty()
-  @IsDate()
+  @IsDateString()
+  @Type(() => Date)
   birthDate: Date;
 
   @IsNotEmpty()

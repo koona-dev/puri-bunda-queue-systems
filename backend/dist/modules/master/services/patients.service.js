@@ -33,21 +33,6 @@ function _ts_param(paramIndex, decorator) {
 }
 let PatientsService = class PatientsService {
     // ===========[Queries]===========
-    async findById(id) {
-        const patientRecord = await this.db.query.patients.findFirst({
-            where: (patient, { eq })=>eq(patient.id, id)
-        });
-        if (!patientRecord) {
-            return null;
-        }
-        const patientEntity = {
-            ...patientRecord,
-            patientClass: (0, _converter.toEnum)(patientRecord.patientClass, Object.values(_patientclassenum.PatientClass)),
-            patientType: (0, _converter.toEnum)(patientRecord.patientType, Object.values(_patienttypeenum.PatientType)),
-            gender: (0, _converter.toEnum)(patientRecord.gender, Object.values(_genderenum.Gender))
-        };
-        return patientEntity;
-    }
     async findOne(query) {
         const patientRecord = await this.db.query.patients.findFirst({
             where: (patient, { eq, and })=>{
@@ -102,8 +87,8 @@ let PatientsService = class PatientsService {
         try {
             const patientData = {
                 ...data,
-                code: await (0, _generatecode.generateCode)(this.db, _masterschema.patients, _masterschema.patients.code, "code"),
-                registrationNumber: await (0, _generatecode.generateCode)(this.db, _masterschema.patients, _masterschema.patients.registrationNumber, "registrationNumber")
+                code: await (0, _generatecode.generateCode)(this.db, _masterschema.patients, "code", "PTN"),
+                registrationNumber: await (0, _generatecode.generateCode)(this.db, _masterschema.patients, "registrationNumber", "REG")
             };
             const patientRecord = await this.db.insert(_masterschema.patients).values(patientData).returning();
             const patientEntity = {

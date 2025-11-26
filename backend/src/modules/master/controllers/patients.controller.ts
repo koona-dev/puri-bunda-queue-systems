@@ -20,17 +20,12 @@ import {
 export class PatientsController {
   constructor(private readonly patientsService: PatientsService) {}
 
-  @Get(":patientId")
-  findById(@Param("patientId") patientId: string) {
-    return this.patientsService.findById(patientId);
-  }
-
   @Get()
   findOne(@Query() query: FindOnePatientQueryParams) {
     return this.patientsService.findOne(query);
   }
 
-  @Get()
+  @Get("list")
   findMany(@Query() query: FindManyPatientsQueryParams) {
     return this.patientsService.findMany(query);
   }

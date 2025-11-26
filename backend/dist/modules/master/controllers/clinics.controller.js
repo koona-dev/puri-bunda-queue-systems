@@ -33,9 +33,6 @@ function _ts_param(paramIndex, decorator) {
     };
 }
 let ClinicsController = class ClinicsController {
-    findById(clinicId) {
-        return this.clinicsService.findById(clinicId);
-    }
     findOne(query) {
         return this.clinicsService.findOne(query);
     }
@@ -58,15 +55,6 @@ let ClinicsController = class ClinicsController {
         this.clinicsService = clinicsService;
     }
 };
-_ts_decorate([
-    (0, _common.Get)(":clinicId"),
-    _ts_param(0, (0, _common.Param)("clinicId")),
-    _ts_metadata("design:type", Function),
-    _ts_metadata("design:paramtypes", [
-        String
-    ]),
-    _ts_metadata("design:returntype", void 0)
-], ClinicsController.prototype, "findById", null);
 _ts_decorate([
     (0, _common.Get)(),
     _ts_param(0, (0, _common.Query)()),

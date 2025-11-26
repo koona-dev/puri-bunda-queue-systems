@@ -10,6 +10,7 @@ Object.defineProperty(exports, "UpdatePatientDto", {
 });
 const _swagger = require("@nestjs/swagger");
 const _classvalidator = require("class-validator");
+const _classtransformer = require("class-transformer");
 const _genderenum = require("../../utils/gender.enum");
 const _patienttypeenum = require("../../utils/patient-type.enum");
 const _patientclassenum = require("../../utils/patient-class.enum");
@@ -37,7 +38,8 @@ _ts_decorate([
 ], UpdatePatientDto.prototype, "name", void 0);
 _ts_decorate([
     (0, _classvalidator.IsOptional)(),
-    (0, _classvalidator.IsDate)(),
+    (0, _classvalidator.IsDateString)(),
+    (0, _classtransformer.Type)(()=>Date),
     _ts_metadata("design:type", typeof Date === "undefined" ? Object : Date)
 ], UpdatePatientDto.prototype, "birthDate", void 0);
 _ts_decorate([

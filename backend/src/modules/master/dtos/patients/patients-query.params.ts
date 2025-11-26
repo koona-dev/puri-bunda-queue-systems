@@ -1,10 +1,12 @@
 import {
-  IsBoolean,
-  IsDate,
+  IsBoolean,  
+  IsDateString,  
   IsEnum,
   IsOptional,
   IsString,
 } from "class-validator";
+import { Type } from "class-transformer";
+
 import { Gender } from "../../utils/gender.enum";
 import { PatientType } from "../../utils/patient-type.enum";
 import { PatientClass } from "../../utils/patient-class.enum";
@@ -41,7 +43,8 @@ export class FindManyPatientsQueryParams {
   name?: string;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
+@Type(() => Date)
   birthDate?: Date;
 
   @IsOptional()
@@ -65,6 +68,7 @@ export class FindManyPatientsQueryParams {
   haveAssurance?: boolean;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
+@Type(() => Date)
   createdAt?: Date;
 }

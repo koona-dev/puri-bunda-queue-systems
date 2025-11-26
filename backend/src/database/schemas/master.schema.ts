@@ -14,7 +14,7 @@ import {
 import { relations } from "drizzle-orm";
 import { queueCalls, queues } from "./queue.schema";
 import { timestamps } from "../helpers/timestamps";
-import { gender } from "../helpers/enums";
+import { gender, patientClass, patientType } from "../helpers/enums";
 
 // ========================================
 // MODUL MASTER DATA
@@ -62,8 +62,8 @@ export const patients = pgTable(
     gender: gender("gender").notNull(),
     phone: varchar("phone").notNull(),
     address: text("address").notNull(),
-    patientType: varchar("patient_type").notNull(),
-    patientClass: varchar("patient_class").notNull(),
+    patientType: patientType("patient_type").notNull(),
+    patientClass: patientClass("patient_class").notNull(),
     haveAssurance: boolean("have_assurance").notNull(),
     assuranceCode: varchar("assuranceCode").unique(),
     ...timestamps,

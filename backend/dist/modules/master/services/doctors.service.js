@@ -29,15 +29,6 @@ function _ts_param(paramIndex, decorator) {
 }
 let DoctorsService = class DoctorsService {
     // ===========[Queries]===========
-    async findById(id) {
-        const doctorRecord = await this.db.query.doctors.findFirst({
-            where: (doctor, { eq })=>eq(doctor.id, id)
-        });
-        if (!doctorRecord) {
-            return null;
-        }
-        return doctorRecord;
-    }
     async findOne(query) {
         const doctorRecord = await this.db.query.doctors.findFirst({
             where: (doctor, { eq, and })=>{
@@ -76,7 +67,7 @@ let DoctorsService = class DoctorsService {
         try {
             const doctorData = {
                 ...data,
-                code: await (0, _generatecode.generateCode)(this.db, _masterschema.doctors, _masterschema.doctors.code, "code"),
+                code: await (0, _generatecode.generateCode)(this.db, _masterschema.doctors, "code", "DTR"),
                 isActive: true
             };
             const doctorRecord = await this.db.insert(_masterschema.doctors).values(doctorData).returning();

@@ -29,15 +29,6 @@ function _ts_param(paramIndex, decorator) {
 }
 let ClinicsService = class ClinicsService {
     // ===========[Queries]===========
-    async findById(id) {
-        const clinicRecord = await this.db.query.clinics.findFirst({
-            where: (clinic, { eq })=>eq(clinic.id, id)
-        });
-        if (!clinicRecord) {
-            return null;
-        }
-        return clinicRecord;
-    }
     async findOne(query) {
         const clinicRecord = await this.db.query.clinics.findFirst({
             where: (clinic, { eq, and })=>{
@@ -74,7 +65,7 @@ let ClinicsService = class ClinicsService {
         try {
             const clinicData = {
                 ...data,
-                code: await (0, _generatecode.generateCode)(this.db, _masterschema.clinics, _masterschema.clinics.code, "code"),
+                code: await (0, _generatecode.generateCode)(this.db, _masterschema.clinics, "code", "CLC"),
                 isActive: true
             };
             const clinicRecord = await this.db.insert(_masterschema.clinics).values(clinicData).returning();

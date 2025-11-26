@@ -1,5 +1,5 @@
 {
-  "id": "594c80e2-de5a-4090-96e5-572c9d8f532a",
+  "id": "19c86286-3146-478d-bbe7-4c321a6d9d70",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -641,7 +641,7 @@
           "name": "called_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": "now()"
         },
         "response_time": {
@@ -726,7 +726,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "set null",
           "onUpdate": "no action"
         }
       },
@@ -751,7 +751,7 @@
           "name": "patient_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "clinic_id": {
           "name": "clinic_id",
@@ -763,13 +763,13 @@
           "name": "doctor_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "staff_id": {
           "name": "staff_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "queue_number": {
           "name": "queue_number",
@@ -810,19 +810,19 @@
           "name": "chief_complaint",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "symptoms": {
           "name": "symptoms",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "symptoms_start_date": {
           "name": "symptoms_start_date",
           "type": "date",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "previous_treatment": {
           "name": "previous_treatment",
@@ -834,13 +834,13 @@
           "name": "reservation_date",
           "type": "date",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "preferred_time": {
           "name": "preferred_time",
           "type": "time",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "status": {
           "name": "status",
@@ -1135,8 +1135,8 @@
         "Draft",
         "Waiting",
         "Called",
-        "Done",
         "On-Hold",
+        "Done",
         "Cancelled"
       ]
     },

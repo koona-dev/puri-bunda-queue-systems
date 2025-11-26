@@ -29,32 +29,38 @@ export const queues = pgTable(
   "queues",
   {
     id: uuid().defaultRandom().primaryKey(),
-    patientId: uuid("patient_id").references(() => patients.id, {
-      onDelete: "set null",
-    }),
+    patientId: uuid("patient_id")
+      .references(() => patients.id, {
+        onDelete: "set null",
+      })
+      .notNull(),
     clinicId: uuid("clinic_id")
-      .notNull()
-      .references(() => clinics.id, { onDelete: "cascade" }),
-    doctorId: uuid("doctor_id").references(() => doctors.id, {
-      onDelete: "set null",
-    }),
-    staffId: uuid("staff_id").references(() => staff.id, {
-      onDelete: "set null",
-    }),
+      .references(() => clinics.id, { onDelete: "cascade" })
+      .notNull(),
+    doctorId: uuid("doctor_id")
+      .references(() => doctors.id, {
+        onDelete: "set null",
+      })
+      .notNull(),
+    staffId: uuid("staff_id")
+      .references(() => staff.id, {
+        onDelete: "set null",
+      })
+      .notNull(),
     queueNumber: varchar("queue_number").notNull().unique(),
     queueType: queueType("queue_type").notNull(),
     priority: priority("priority").default("Normal").notNull(), // BARU: prioritas antrian
     serviceType: serviceType("service_type").notNull(),
     referenceType: referenceType("reference_type").notNull(),
-    chiefComplaint: text("chief_complaint"), // Keluhan utama
-    symptoms: text("symptoms"), // Gejala yang dirasakan
-    symptomsStartDate: date("symptoms_start_date"), // Sejak kapan
+    chiefComplaint: text("chief_complaint").notNull(), // Keluhan utama
+    symptoms: text("symptoms").notNull(), // Gejala yang dirasakan
+    symptomsStartDate: date("symptoms_start_date", { mode: "date" }).notNull(), // Sejak kapan
     previousTreatment: text("previous_treatment"), // Pengobatan yang sudah dilakukan
-    reservationDate: date("reservation_date"),
-    preferredTime: time("preferred_time"), // BARU: Jam yang diinginkan
+    reservationDate: date("reservation_date", { mode: "date" }).notNull(),
+    preferredTime: time("preferred_time").notNull(), // BARU: Jam yang diinginkan
     status: queueStatus("status").default("Waiting").notNull(),
-    calledAt: timestamp("called_at"),
-    completedAt: timestamp("completed_at"),
+    calledAt: timestamp("called_at", { mode: "date" }),
+    completedAt: timestamp("completed_at", { mode: "date" }),
     staffNotes: text("staff_notes"),
     cancellationReason: text("cancellation_reason"),
     ...timestamps,
@@ -83,8 +89,8 @@ export const queueCalls = pgTable(
       .references(() => queues.id, { onDelete: "cascade" }),
     staffId: uuid("staff_id")
       .notNull()
-      .references(() => staff.id, { onDelete: "cascade" }),
-    calledAt: timestamp("called_at").defaultNow().notNull(),
+      .references(() => staff.id, { onDelete: "set null" }),
+    calledAt: timestamp("called_at").defaultNow(),
     responseTime: integer("response_time"), // Berapa lama pasien respon (dalam detik)
     ...timestamps,
   },

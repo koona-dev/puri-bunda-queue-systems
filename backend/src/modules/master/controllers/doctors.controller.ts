@@ -17,11 +17,6 @@ import { UpdateDoctorDto } from "../dtos/doctors/update-doctor.dto";
 export class DoctorsController {
   constructor(private readonly doctorsService: DoctorsService) {}
 
-  @Get(":doctorId")
-  findById(@Param("doctorId") doctorId: string) {
-    return this.doctorsService.findById(doctorId);
-  }
-
   @Get()
   findOne(@Query() query: DoctorsQueryParams) {
     return this.doctorsService.findOne(query);

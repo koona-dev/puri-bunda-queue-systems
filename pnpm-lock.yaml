@@ -126,6 +126,9 @@ importers:
       '@swc/core':
         specifier: ^1.11.29
         version: 1.15.0
+      '@types/express':
+        specifier: ^5.0.5
+        version: 5.0.5
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14

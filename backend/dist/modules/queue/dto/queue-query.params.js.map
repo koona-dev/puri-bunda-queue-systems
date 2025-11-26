@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../src/modules/queue/dto/queue-query.params.ts"],"sourcesContent":["export class PatientsQueryParams {}\r\n"],"names":["PatientsQueryParams"],"mappings":";;;;+BAAaA;;;eAAAA;;;AAAN,IAAA,AAAMA,sBAAN,MAAMA;AAAqB"}

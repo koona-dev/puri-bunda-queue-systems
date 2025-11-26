@@ -2,10 +2,11 @@ import { DrizzlePGModule } from "@knaadh/nestjs-drizzle-pg";
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { CqrsModule } from "@nestjs/cqrs";
-import { QueueModule } from "./modules/queue/queue.module";
+import { QueueModule } from "./modules/queues/queues.module";
 import { MasterModule } from "./modules/master/master.module";
 import { DBSchema } from "./database/schemas";
 import { DashboardModule } from "./modules/dashboard/dashboard.module";
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { DashboardModule } from "./modules/dashboard/dashboard.module";
     MasterModule,
     QueueModule,
     DashboardModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

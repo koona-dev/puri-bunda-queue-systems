@@ -21,6 +21,7 @@ export interface StaffProps {
   code?: string;
   loketNumber?: string;
   nik?: string | null;
+  username?: string;
   name?: string;
   email?: string;
   phone?: string;

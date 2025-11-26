@@ -19,8 +19,8 @@ export const queueStatus = pgEnum("queue_status", [
   "Draft",
   "Waiting",
   "Called",
-  "Done",
   "On-Hold",
+  "Done",
   "Cancelled",
 ]);
 

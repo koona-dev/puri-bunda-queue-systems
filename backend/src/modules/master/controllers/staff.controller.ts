@@ -18,17 +18,12 @@ import { StaffQueryParams } from "../dtos/staff/staff-query.params";
 export class StaffController {
   constructor(private readonly staffService: StaffService) {}
 
-  @Get(":staffId")
-  findById(@Param("staffId") staffId: string) {
-    return this.staffService.findById(staffId);
-  }
-
   @Get()
   findOne(@Query() query: StaffQueryParams) {
     return this.staffService.findOne(query);
   }
 
-  @Get()
+  @Get("list")
   findAll(@Query() query: StaffQueryParams) {
     return this.staffService.findMany(query);
   }

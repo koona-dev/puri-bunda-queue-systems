@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../src/modules/master/utils/service-type.ts"],"sourcesContent":["export enum ServiceType {\r\n  rawatJalan = \"Rawat Jalan\",\r\n  rawatInap = \"Rawat Inap\",\r\n  ugd = \"UGD\",\r\n}\r\n"],"names":["ServiceType"],"mappings":";;;;+BAAYA;;;eAAAA;;;AAAL,IAAA,AAAKA,qCAAAA;;;;WAAAA"}

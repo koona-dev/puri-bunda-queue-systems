@@ -33,9 +33,6 @@ function _ts_param(paramIndex, decorator) {
     };
 }
 let StaffController = class StaffController {
-    findById(staffId) {
-        return this.staffService.findById(staffId);
-    }
     findOne(query) {
         return this.staffService.findOne(query);
     }
@@ -59,15 +56,6 @@ let StaffController = class StaffController {
     }
 };
 _ts_decorate([
-    (0, _common.Get)(":staffId"),
-    _ts_param(0, (0, _common.Param)("staffId")),
-    _ts_metadata("design:type", Function),
-    _ts_metadata("design:paramtypes", [
-        String
-    ]),
-    _ts_metadata("design:returntype", void 0)
-], StaffController.prototype, "findById", null);
-_ts_decorate([
     (0, _common.Get)(),
     _ts_param(0, (0, _common.Query)()),
     _ts_metadata("design:type", Function),
@@ -77,7 +65,7 @@ _ts_decorate([
     _ts_metadata("design:returntype", void 0)
 ], StaffController.prototype, "findOne", null);
 _ts_decorate([
-    (0, _common.Get)(),
+    (0, _common.Get)("list"),
     _ts_param(0, (0, _common.Query)()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [

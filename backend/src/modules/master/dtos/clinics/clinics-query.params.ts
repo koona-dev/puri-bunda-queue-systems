@@ -1,4 +1,5 @@
-import { IsBoolean, IsDate, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsDateString, IsOptional, IsString } from "class-validator";
+import { Type } from "class-transformer";
 
 export class ClinicsQueryParams {
   @IsOptional()
@@ -18,6 +19,7 @@ export class ClinicsQueryParams {
   isActive?: boolean;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
+  @Type(() => Date)
   createdAt?: Date;
 }

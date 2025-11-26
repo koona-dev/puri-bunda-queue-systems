@@ -4,16 +4,11 @@ import {
   doctors,
   NewClinic,
   NewDoctor,
-  NewPatient,
   NewStaff,
-  patients,
   staff,
 } from "./schemas/master.schema";
 import { generateCode } from "src/utils/generate-code";
 import { encryptPassword } from "src/utils/encrypt";
-import { PatientClass } from "src/modules/master/utils/patient-class.enum";
-import { PatientType } from "src/modules/master/utils/patient-type.enum";
-import { Gender } from "src/modules/master/utils/gender.enum";
 
 async function seedDatabase() {
   console.log("Loading environment variables...");
@@ -33,12 +28,12 @@ async function seedDatabase() {
 
   try {
     const doctorsData: NewDoctor = {
-      code: await generateCode(database, doctors, doctors.code, "code", "DTR"),
-      name: "Poli Kandungan",
-      dayOfWeek: 6,
-      startTime: "08:00:00",
-      endTime: "16:00:00",
-      quota: 30,
+      code: await generateCode(database, doctors, "code", "DTR"),
+      name: "Dr. Hj. Haryono",
+      dayOfWeek: 5,
+      startTime: "09:00:00",
+      endTime: "17:00:00",
+      quota: 40,
     };
 
     const insertedDoctor = await database
@@ -46,6 +41,7 @@ async function seedDatabase() {
       .values(doctorsData)
       .returning({
         id: doctors.id,
+        code: doctors.code,
         name: doctors.name,
       });
 
@@ -57,7 +53,7 @@ async function seedDatabase() {
     }
 
     const clinicsData: NewClinic = {
-      code: await generateCode(database, clinics, clinics.code, "code", "CLC"),
+      code: await generateCode(database, clinics, "code", "CLC"),
       name: "Poli Kandungan",
     };
 
@@ -66,6 +62,7 @@ async function seedDatabase() {
       .values(clinicsData)
       .returning({
         id: clinics.id,
+        code: clinics.code,
         name: clinics.name,
       });
 
@@ -77,15 +74,15 @@ async function seedDatabase() {
     }
 
     const staffData: NewStaff = {
-      code: await generateCode(database, staff, staff.code, "code", "STF"),
-      loketNumber: "01",
-      username: "admin",
-      email: "admin@dmcones.com",
-      password: encryptPassword("admin911"),
+      code: await generateCode(database, staff, "code", "STF"),
+      loketNumber: "02",
+      username: "staff-loket2",
+      email: "staff2@puribunda.com",
+      password: encryptPassword("staff2"),
       name: "Holding Company",
-      phone: "08123456789",
+      phone: "0812343534534",
       clinicId: insertedClinic[0].id,
-      address: "Tabanan, Bali, Indonesia",
+      address: "Badung, Bali, Indonesia",
     };
 
     const insertedStaff = await database
@@ -93,6 +90,7 @@ async function seedDatabase() {
       .values(staffData)
       .returning({
         id: staff.id,
+        code: staff.code,
         name: staff.name,
       });
 
@@ -102,43 +100,8 @@ async function seedDatabase() {
       console.error("Error seeding staff:");
       return;
     }
-
-    const patientsData: NewPatient = {
-      code: await generateCode(database, patients, patients.code, "code", "PTN"),
-      registrationNumber: await generateCode(
-        database,
-        patients,
-        patients.registrationNumber,
-        "registrationNumber", "REG"
-      ),
-      name: "Ryan Santoso",
-      phone: "08123456789",
-      birthDate: new Date("2000-01-01"),
-      gender: Gender.l,
-      nik: "1234567890",
-      patientClass: PatientClass.second,
-      patientType: PatientType.assurance,
-      address: "Tabanan, Bali, Indonesia",
-      haveAssurance: true,
-      assuranceCode: await generateCode(
-        database,
-        patients,
-        patients.assuranceCode,
-        "assuranceCode", "ASSR"
-      ),
-    };
-
-    const [newPatient] = await database
-      .insert(patients)
-      .values(patientsData)
-      .returning({
-        id: patients.id,
-        name: patients.name,
-      });
-
-    console.log("✅ Patient created:", newPatient);
   } catch (error) {
-    console.error("❌ Error seeding patient:", error);
+    console.error("❌ Error seeding any data:", error);
   }
 
   console.log("🎉 Seeding Finished.");

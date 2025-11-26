@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/modules/queues/utils/queue-type.enum.ts"],"sourcesContent":["export enum QueueType {\r\n  Reservation = \"Reservasi\",\r\n  Walkin = \"Walk-In\",\r\n}\r\n"],"names":["QueueType"],"mappings":";;;;+BAAYA;;;eAAAA;;;AAAL,IAAA,AAAKA,mCAAAA;;;WAAAA"}

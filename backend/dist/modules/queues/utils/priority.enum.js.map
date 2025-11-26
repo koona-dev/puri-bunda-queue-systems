@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../src/modules/queues/utils/priority.enum.ts"],"sourcesContent":["export enum Priority {\r\n  Normal = \"Normal\",\r\n  Urgent = \"Urgent\",\r\n  Emergency = \"Emergency\",\r\n}\r\n"],"names":["Priority"],"mappings":";;;;+BAAYA;;;eAAAA;;;AAAL,IAAA,AAAKA,kCAAAA;;;;WAAAA"}

@@ -9,20 +9,19 @@ Object.defineProperty(exports, "generateCode", {
     }
 });
 const _drizzleorm = require("drizzle-orm");
-async function generateCode(db, schema, field, key) {
-    const prefix = "DM";
+async function generateCode(db, schema, key, prefix) {
     const now = new Date();
-    const datePart = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, "0")}/${String(now.getDate()).padStart(2, "0")}`;
-    const latestData = await db.select().from(schema).where((0, _drizzleorm.like)(field, `${datePart}%`)).orderBy((0, _drizzleorm.desc)(field));
+    const datePart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    const latestData = await db.select({
+        lastNumber: (0, _drizzleorm.sql)`
+      CAST(substring(${schema[key]} from '(\\d+)$') AS INTEGER)
+    `
+    }).from(schema).orderBy((0, _drizzleorm.desc)((0, _drizzleorm.sql)`CAST(substring(${schema[key]} from '(\\d+)$') AS INTEGER)`)).limit(1);
     let nextNumber = 1;
     if (latestData && latestData.length > 0) {
-        // Type assertion
-        const codeValue = latestData[0][key];
-        const parts = codeValue.split("/");
-        const lastNum = parseInt(parts[1], 10);
-        nextNumber = lastNum + 1;
+        nextNumber = latestData[0].lastNumber + 1;
     }
-    const newCode = `${prefix}${String(nextNumber).padStart(3, "0")}/${datePart}`;
+    const newCode = `${prefix}-${datePart}-${String(nextNumber).padStart(3, "0")}`;
     return newCode;
 }
 

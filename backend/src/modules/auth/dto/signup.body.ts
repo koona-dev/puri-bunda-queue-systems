@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import {
   IsEmail,
   IsNotEmpty,
@@ -14,7 +14,7 @@ export class SignupBody {
   @IsString()
   loketNumber: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   nik?: string;
@@ -57,7 +57,7 @@ export class SignupBody {
   @IsString()
   phone: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   address?: string;

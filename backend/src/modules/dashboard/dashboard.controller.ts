@@ -12,31 +12,34 @@ import { DashboardService } from "./dashboard.service";
 import { CreateDashboardDto } from "./dto/create-dashboard.dto";
 import { UpdateDashboardDto } from "./dto/update-dashboard.dto";
 import JwtAuthenticationGuard from "src/utils/guards/jwt-authentication.guard";
+import { ApiBody } from "@nestjs/swagger";
 
 @Controller("dashboard")
 export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
-  @UseGuards(JwtAuthenticationGuard)
   @Post()
+  @UseGuards(JwtAuthenticationGuard)
+  @ApiBody({ type: CreateDashboardDto })
   create(@Body() createDashboardDto: CreateDashboardDto) {
     return this.dashboardService.create(createDashboardDto);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
   @Get()
+  @UseGuards(JwtAuthenticationGuard)
   findAll() {
     return this.dashboardService.findAll();
   }
 
-  @UseGuards(JwtAuthenticationGuard)
   @Get(":id")
+  @UseGuards(JwtAuthenticationGuard)
   findOne(@Param("id") id: string) {
     return this.dashboardService.findOne(+id);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
   @Patch(":id")
+  @UseGuards(JwtAuthenticationGuard)
+  @ApiBody({ type: UpdateDashboardDto })
   update(
     @Param("id") id: string,
     @Body() updateDashboardDto: UpdateDashboardDto
@@ -44,8 +47,8 @@ export class DashboardController {
     return this.dashboardService.update(+id, updateDashboardDto);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
   @Delete(":id")
+  @UseGuards(JwtAuthenticationGuard)
   remove(@Param("id") id: string) {
     return this.dashboardService.remove(+id);
   }

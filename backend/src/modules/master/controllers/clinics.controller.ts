@@ -14,31 +14,36 @@ import { ClinicsQueryParams } from "../dtos/clinics/clinics-query.params";
 import { CreateClinicDto } from "../dtos/clinics/create-clinic.dto";
 import { UpdateClinicDto } from "../dtos/clinics/update-clinic.dto";
 import JwtAuthenticationGuard from "src/utils/guards/jwt-authentication.guard";
+import { ApiBody, ApiQuery } from "@nestjs/swagger";
 
 @Controller("clinics")
 export class ClinicsController {
   constructor(private readonly clinicsService: ClinicsService) {}
 
-  @UseGuards(JwtAuthenticationGuard)
   @Get()
+  @UseGuards(JwtAuthenticationGuard)
+  @ApiQuery({ type: ClinicsQueryParams })
   findOne(@Query() query: ClinicsQueryParams) {
     return this.clinicsService.findOne(query);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
   @Get()
+  @UseGuards(JwtAuthenticationGuard)
+  @ApiQuery({ type: ClinicsQueryParams })
   findAll(@Query() query: ClinicsQueryParams) {
     return this.clinicsService.findMany(query);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
   @Post()
+  @UseGuards(JwtAuthenticationGuard)
+  @ApiBody({ type: CreateClinicDto })
   create(@Body() createClinicsDto: CreateClinicDto) {
     return this.clinicsService.create(createClinicsDto);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
   @Patch(":clinicId")
+  @UseGuards(JwtAuthenticationGuard)
+  @ApiBody({ type: UpdateClinicDto })
   update(
     @Param("clinicId") clinicId: string,
     @Body() updateClinicsDto: UpdateClinicDto

@@ -17,31 +17,36 @@ import {
   FindOnePatientQueryParams,
 } from "../dtos/patients/patients-query.params";
 import JwtAuthenticationGuard from "src/utils/guards/jwt-authentication.guard";
+import { ApiBody, ApiQuery } from "@nestjs/swagger";
 
 @Controller("patients")
 export class PatientsController {
   constructor(private readonly patientsService: PatientsService) {}
 
-  @UseGuards(JwtAuthenticationGuard)
   @Get()
+  @UseGuards(JwtAuthenticationGuard)
+  @ApiQuery({ type: FindOnePatientQueryParams })
   findOne(@Query() query: FindOnePatientQueryParams) {
     return this.patientsService.findOne(query);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
   @Get("list")
+  @UseGuards(JwtAuthenticationGuard)
+  @ApiQuery({ type: FindManyPatientsQueryParams })
   findMany(@Query() query: FindManyPatientsQueryParams) {
     return this.patientsService.findMany(query);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
   @Post()
+  @UseGuards(JwtAuthenticationGuard)
+  @ApiBody({ type: CreatePatientDto })
   create(@Body() createPatientsDto: CreatePatientDto) {
     return this.patientsService.create(createPatientsDto);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
   @Patch(":patientId")
+  @UseGuards(JwtAuthenticationGuard)
+  @ApiBody({ type: UpdatePatientDto })
   update(
     @Param("patientId") patientId: string,
     @Body() updatePatientsDto: UpdatePatientDto
@@ -49,8 +54,8 @@ export class PatientsController {
     return this.patientsService.update({ ...updatePatientsDto, id: patientId });
   }
 
-  @UseGuards(JwtAuthenticationGuard)
   @Delete(":patientId")
+  @UseGuards(JwtAuthenticationGuard)
   remove(@Param("patientId") patientId: string) {
     return this.patientsService.delete(patientId);
   }

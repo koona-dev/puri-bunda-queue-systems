@@ -13,7 +13,7 @@ import { ApiBody, ApiTags } from "@nestjs/swagger";
 import { SignupBody } from "./dto/signup.body";
 import { LoginPatientBody, LoginStaffBody } from "./dto/login.body";
 import { CookieService } from "./services/cookie.service";
-import JwtAuthenticationGuard from "./utils/jwt-authentication.guard";
+import JwtAuthenticationGuard from "../../utils/guards/jwt-authentication.guard";
 import { AuthService } from "./services/auth.service";
 import { comparePassword } from "src/utils/encrypt";
 import { JwtAuthService } from "./services/jwt-auth.service";

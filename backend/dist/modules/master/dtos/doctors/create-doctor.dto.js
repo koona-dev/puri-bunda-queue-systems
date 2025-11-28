@@ -8,6 +8,7 @@ Object.defineProperty(exports, "CreateDoctorDto", {
         return CreateDoctorDto;
     }
 });
+const _swagger = require("@nestjs/swagger");
 const _classvalidator = require("class-validator");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -21,36 +22,43 @@ function _ts_metadata(k, v) {
 let CreateDoctorDto = class CreateDoctorDto {
 };
 _ts_decorate([
+    (0, _swagger.ApiProperty)(),
     (0, _classvalidator.IsNotEmpty)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], CreateDoctorDto.prototype, "name", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], CreateDoctorDto.prototype, "specialization", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], CreateDoctorDto.prototype, "phone", void 0);
 _ts_decorate([
+    (0, _swagger.ApiProperty)(),
     (0, _classvalidator.IsNotEmpty)(),
     (0, _classvalidator.IsNumber)(),
     _ts_metadata("design:type", Number)
 ], CreateDoctorDto.prototype, "dayOfWeek", void 0);
 _ts_decorate([
+    (0, _swagger.ApiProperty)(),
     (0, _classvalidator.IsNotEmpty)(),
-    (0, _classvalidator.IsDateString)(),
+    (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], CreateDoctorDto.prototype, "startTime", void 0);
 _ts_decorate([
+    (0, _swagger.ApiProperty)(),
     (0, _classvalidator.IsNotEmpty)(),
-    (0, _classvalidator.IsDateString)(),
+    (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], CreateDoctorDto.prototype, "endTime", void 0);
 _ts_decorate([
+    (0, _swagger.ApiProperty)(),
     (0, _classvalidator.IsNotEmpty)(),
     (0, _classvalidator.IsNumber)(),
     _ts_metadata("design:type", Number)

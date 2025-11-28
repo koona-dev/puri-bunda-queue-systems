@@ -103,7 +103,7 @@ let QueuesService = class QueuesService {
                 if (query.referenceType) conditions.push(eq(queue.referenceType, query.referenceType));
                 if (query.reservationDate) conditions.push(eq(queue.reservationDate, query.reservationDate));
                 if (query.status) conditions.push(eq(queue.status, query.status));
-                return conditions.length > 0 ? and(...conditions) : undefined;
+                return and(...conditions);
             },
             orderBy: (queue, { asc })=>[
                     (0, _drizzleorm.sql)`

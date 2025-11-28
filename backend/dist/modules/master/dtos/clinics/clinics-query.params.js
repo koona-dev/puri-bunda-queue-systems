@@ -10,6 +10,7 @@ Object.defineProperty(exports, "ClinicsQueryParams", {
 });
 const _classvalidator = require("class-validator");
 const _classtransformer = require("class-transformer");
+const _swagger = require("@nestjs/swagger");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -22,28 +23,33 @@ function _ts_metadata(k, v) {
 let ClinicsQueryParams = class ClinicsQueryParams {
 };
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], ClinicsQueryParams.prototype, "id", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], ClinicsQueryParams.prototype, "code", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], ClinicsQueryParams.prototype, "name", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsBoolean)(),
     _ts_metadata("design:type", Boolean)
 ], ClinicsQueryParams.prototype, "isActive", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
-    (0, _classvalidator.IsDateString)(),
+    (0, _classvalidator.IsDate)(),
     (0, _classtransformer.Type)(()=>Date),
     _ts_metadata("design:type", typeof Date === "undefined" ? Object : Date)
 ], ClinicsQueryParams.prototype, "createdAt", void 0);

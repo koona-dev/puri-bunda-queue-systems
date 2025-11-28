@@ -1,4 +1,4 @@
-import { IsBoolean, IsDateString, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsDate, IsDateString, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
 import { ApiPropertyOptional } from "@nestjs/swagger";
 
@@ -45,7 +45,7 @@ export class UpdateStaffDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsDateString()
+  @IsDate()
   @Type(() => Date)
   lastLoginAt?: Date;
 }

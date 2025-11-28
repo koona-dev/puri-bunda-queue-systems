@@ -1,4 +1,4 @@
-import { IsDateString, IsEnum, IsOptional, IsString } from "class-validator";
+import { IsDate, IsDateString, IsEnum, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
 
 import { QueueType } from "../utils/queue-type.enum";
@@ -9,22 +9,22 @@ import { QueueStatus } from "../utils/queue-status.enum";
 import { ApiPropertyOptional } from "@nestjs/swagger";
 
 export class UpdateQueueDto {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: QueueType })
   @IsOptional()
   @IsEnum(QueueType)
   queueType?: QueueType;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: Priority })
   @IsOptional()
   @IsEnum(Priority)
   priority?: Priority;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: ServiceType })
   @IsOptional()
   @IsEnum(ServiceType)
   serviceType?: ServiceType;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: ReferenceType })
   @IsOptional()
   @IsEnum(ReferenceType)
   referenceType?: ReferenceType;
@@ -41,7 +41,7 @@ export class UpdateQueueDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsDateString()
+  @IsDate()
   @Type(() => Date)
   symptomsStartDate?: Date;
 
@@ -52,7 +52,7 @@ export class UpdateQueueDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsDateString()
+  @IsDate()
   @Type(() => Date)
   reservationDate?: Date;
 
@@ -61,7 +61,7 @@ export class UpdateQueueDto {
   @IsString()
   preferredTime?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: QueueStatus })
   @IsOptional()
   @IsEnum(QueueStatus)
   status?: QueueStatus;

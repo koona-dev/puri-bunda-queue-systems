@@ -80,7 +80,7 @@ const comparePassword = (hashPassword, password)=>{
     return _bcryptjs.compareSync(password, hashPassword);
 };
 const generateToken = (payload)=>{
-    return _jsonwebtoken.sign(payload, process.env.JWT_SECRET, {
+    return _jsonwebtoken.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, {
         expiresIn: "1d"
     });
 };

@@ -1,5 +1,6 @@
 import {
   IsBoolean,
+  IsDate,
   IsDateString,
   IsEnum,
   IsNotEmpty,
@@ -26,11 +27,11 @@ export class CreatePatientDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsDateString()
+  @IsDate()
   @Type(() => Date)
   birthDate: Date;
 
-  @ApiProperty()
+  @ApiProperty({ enum: Gender })
   @IsNotEmpty()
   @IsEnum(Gender)
   gender: Gender;
@@ -45,12 +46,12 @@ export class CreatePatientDto {
   @IsString()
   address: string;
 
-  @ApiProperty()
+  @ApiProperty({ enum: PatientType })
   @IsNotEmpty()
   @IsEnum(PatientType)
   patientType: PatientType;
 
-  @ApiProperty()
+  @ApiProperty({ enum: PatientClass })
   @IsNotEmpty()
   @IsEnum(PatientClass)
   patientClass: PatientClass;

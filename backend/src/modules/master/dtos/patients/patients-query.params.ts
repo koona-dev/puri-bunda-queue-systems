@@ -1,5 +1,6 @@
 import {
   IsBoolean,
+  IsDate,
   IsDateString,
   IsEnum,
   IsOptional,
@@ -45,37 +46,45 @@ export class FindOnePatientQueryParams {
 }
 
 export class FindManyPatientsQueryParams {
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   name?: string;
 
+  @ApiPropertyOptional()
   @IsOptional()
-  @IsDateString()
+  @IsDate()
   @Type(() => Date)
   birthDate?: Date;
 
+  @ApiPropertyOptional({ enum: Gender })
   @IsOptional()
   @IsEnum(Gender)
   gender?: Gender;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsString()
   address?: string;
 
+  @ApiPropertyOptional({ enum: PatientType })
   @IsOptional()
   @IsEnum(PatientType)
   patientType?: PatientType;
 
+  @ApiPropertyOptional({ enum: PatientClass })
   @IsOptional()
   @IsEnum(PatientClass)
   patientClass?: PatientClass;
 
+  @ApiPropertyOptional()
   @IsOptional()
   @IsBoolean()
   haveAssurance?: boolean;
 
+  @ApiPropertyOptional()
   @IsOptional()
-  @IsDateString()
+  @IsDate()
   @Type(() => Date)
   createdAt?: Date;
 }

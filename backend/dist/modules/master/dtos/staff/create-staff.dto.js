@@ -8,6 +8,7 @@ Object.defineProperty(exports, "CreateStaffDto", {
         return CreateStaffDto;
     }
 });
+const _swagger = require("@nestjs/swagger");
 const _classvalidator = require("class-validator");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -21,41 +22,49 @@ function _ts_metadata(k, v) {
 let CreateStaffDto = class CreateStaffDto {
 };
 _ts_decorate([
+    (0, _swagger.ApiProperty)(),
     (0, _classvalidator.IsNotEmpty)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], CreateStaffDto.prototype, "loketNumber", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], CreateStaffDto.prototype, "nik", void 0);
 _ts_decorate([
+    (0, _swagger.ApiProperty)(),
     (0, _classvalidator.IsNotEmpty)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], CreateStaffDto.prototype, "username", void 0);
 _ts_decorate([
+    (0, _swagger.ApiProperty)(),
     (0, _classvalidator.IsNotEmpty)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], CreateStaffDto.prototype, "email", void 0);
 _ts_decorate([
+    (0, _swagger.ApiProperty)(),
     (0, _classvalidator.IsNotEmpty)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], CreateStaffDto.prototype, "password", void 0);
 _ts_decorate([
+    (0, _swagger.ApiProperty)(),
     (0, _classvalidator.IsNotEmpty)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], CreateStaffDto.prototype, "name", void 0);
 _ts_decorate([
+    (0, _swagger.ApiProperty)(),
     (0, _classvalidator.IsNotEmpty)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], CreateStaffDto.prototype, "phone", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)

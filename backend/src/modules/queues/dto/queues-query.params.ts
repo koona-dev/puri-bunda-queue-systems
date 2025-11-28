@@ -1,9 +1,4 @@
-import {  
-  IsDateString,
-  IsEnum,
-  IsOptional,
-  IsString,
-} from "class-validator";
+import { IsDate, IsDateString, IsEnum, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
 
 import { QueueType } from "../utils/queue-type.enum";
@@ -46,39 +41,39 @@ export class FindOneQueuesQueryParams {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsDateString()
-@Type(() => Date)
+  @IsDate()
+  @Type(() => Date)
   createdAt?: Date;
 }
 
 export class FindManyQueuesQueryParams {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: QueueType })
   @IsOptional()
   @IsEnum(QueueType)
   queueType?: QueueType;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: Priority })
   @IsOptional()
   @IsEnum(Priority)
   priority?: Priority;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: ServiceType })
   @IsOptional()
   @IsEnum(ServiceType)
   serviceType?: ServiceType;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: ReferenceType })
   @IsOptional()
   @IsEnum(ReferenceType)
   referenceType?: ReferenceType;
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsDateString()
-@Type(() => Date)
+  @IsDate()
+  @Type(() => Date)
   reservationDate?: Date;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: QueueStatus })
   @IsOptional()
   @IsEnum(QueueStatus)
   status?: QueueStatus;

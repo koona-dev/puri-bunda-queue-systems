@@ -11,11 +11,11 @@ Object.defineProperty(exports, "AppModule", {
 const _nestjsdrizzlepg = require("@knaadh/nestjs-drizzle-pg");
 const _common = require("@nestjs/common");
 const _config = require("@nestjs/config");
-const _cqrs = require("@nestjs/cqrs");
 const _queuesmodule = require("./modules/queues/queues.module");
 const _mastermodule = require("./modules/master/master.module");
 const _schemas = require("./database/schemas");
 const _dashboardmodule = require("./modules/dashboard/dashboard.module");
+const _authmodule = require("./modules/auth/auth.module");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -27,7 +27,6 @@ let AppModule = class AppModule {
 AppModule = _ts_decorate([
     (0, _common.Module)({
         imports: [
-            _cqrs.CqrsModule.forRoot(),
             _config.ConfigModule.forRoot({
                 isGlobal: true
             }),
@@ -50,9 +49,10 @@ AppModule = _ts_decorate([
                     };
                 }
             }),
+            _authmodule.AuthModule,
+            _dashboardmodule.DashboardModule,
             _mastermodule.MasterModule,
-            _queuesmodule.QueueModule,
-            _dashboardmodule.DashboardModule
+            _queuesmodule.QueueModule
         ]
     })
 ], AppModule);

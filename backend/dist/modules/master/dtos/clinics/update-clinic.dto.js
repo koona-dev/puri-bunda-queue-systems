@@ -8,6 +8,7 @@ Object.defineProperty(exports, "UpdateClinicDto", {
         return UpdateClinicDto;
     }
 });
+const _swagger = require("@nestjs/swagger");
 const _classvalidator = require("class-validator");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -21,11 +22,13 @@ function _ts_metadata(k, v) {
 let UpdateClinicDto = class UpdateClinicDto {
 };
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateClinicDto.prototype, "name", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)

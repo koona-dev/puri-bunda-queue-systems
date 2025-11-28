@@ -24,14 +24,12 @@ export class QueuesController {
   constructor(private readonly queuesService: QueuesService) {}
 
   @Get()
-  @UseGuards(JwtAuthenticationGuard)
-  @ApiQuery({ type: FindOneQueuesQueryParams })
+  @UseGuards(JwtAuthenticationGuard)  
   findOne(@Query() query: FindOneQueuesQueryParams) {
     return this.queuesService.findOne(query);
   }
 
-  @UseGuards(JwtAuthenticationGuard)
-  @ApiQuery({ type: FindManyQueuesQueryParams })
+  @UseGuards(JwtAuthenticationGuard)  
   @Get("list")
   findMany(@Query() query: FindManyQueuesQueryParams) {
     return this.queuesService.findMany(query);

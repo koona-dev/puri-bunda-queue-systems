@@ -73,8 +73,8 @@ const patients = (0, _pgcore.pgTable)("patients", {
     gender: (0, _enums.gender)("gender").notNull(),
     phone: (0, _pgcore.varchar)("phone").notNull(),
     address: (0, _pgcore.text)("address").notNull(),
-    patientType: (0, _pgcore.varchar)("patient_type").notNull(),
-    patientClass: (0, _pgcore.varchar)("patient_class").notNull(),
+    patientType: (0, _enums.patientType)("patient_type").notNull(),
+    patientClass: (0, _enums.patientClass)("patient_class").notNull(),
     haveAssurance: (0, _pgcore.boolean)("have_assurance").notNull(),
     assuranceCode: (0, _pgcore.varchar)("assuranceCode").unique(),
     ..._timestamps.timestamps

@@ -8,6 +8,7 @@ Object.defineProperty(exports, "UpdateDoctorDto", {
         return UpdateDoctorDto;
     }
 });
+const _swagger = require("@nestjs/swagger");
 const _classvalidator = require("class-validator");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -21,41 +22,49 @@ function _ts_metadata(k, v) {
 let UpdateDoctorDto = class UpdateDoctorDto {
 };
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateDoctorDto.prototype, "name", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateDoctorDto.prototype, "phone", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateDoctorDto.prototype, "specialization", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsNumber)(),
     _ts_metadata("design:type", Number)
 ], UpdateDoctorDto.prototype, "dayOfWeek", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
-    (0, _classvalidator.IsDateString)(),
+    (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateDoctorDto.prototype, "startTime", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
-    (0, _classvalidator.IsDateString)(),
+    (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateDoctorDto.prototype, "endTime", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsNumber)(),
     _ts_metadata("design:type", Number)
 ], UpdateDoctorDto.prototype, "quota", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsBoolean)(),
     _ts_metadata("design:type", Boolean)

@@ -1,11 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import {  
-  IsDateString,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateDoctorDto {
   @ApiProperty()
@@ -30,12 +24,12 @@ export class CreateDoctorDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsDateString()
+  @IsString()
   startTime: string;
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsDateString()
+  @IsString()
   endTime: string;
 
   @ApiProperty()

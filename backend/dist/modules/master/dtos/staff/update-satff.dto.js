@@ -10,6 +10,7 @@ Object.defineProperty(exports, "UpdateStaffDto", {
 });
 const _classvalidator = require("class-validator");
 const _classtransformer = require("class-transformer");
+const _swagger = require("@nestjs/swagger");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -22,48 +23,57 @@ function _ts_metadata(k, v) {
 let UpdateStaffDto = class UpdateStaffDto {
 };
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateStaffDto.prototype, "nik", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateStaffDto.prototype, "username", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateStaffDto.prototype, "email", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateStaffDto.prototype, "password", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateStaffDto.prototype, "name", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateStaffDto.prototype, "phone", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdateStaffDto.prototype, "address", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsBoolean)(),
     _ts_metadata("design:type", Boolean)
 ], UpdateStaffDto.prototype, "isActive", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
-    (0, _classvalidator.IsDateString)(),
+    (0, _classvalidator.IsDate)(),
     (0, _classtransformer.Type)(()=>Date),
     _ts_metadata("design:type", typeof Date === "undefined" ? Object : Date)
 ], UpdateStaffDto.prototype, "lastLoginAt", void 0);

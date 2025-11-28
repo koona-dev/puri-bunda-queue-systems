@@ -9,6 +9,7 @@ import { PatientType } from "../../master/utils/patient-type.enum";
 import { staff } from "src/database/schemas/master.schema";
 import { generateCode } from "src/utils/generate-code";
 import { PatientClass } from "src/modules/master/utils/patient-class.enum";
+import { encryptPassword } from "src/utils/encrypt";
 
 export class AuthService {
   constructor(@Inject("DB_PG") private db: NodePgDatabase<DBSchemaType>) {}
@@ -61,10 +62,12 @@ export class AuthService {
   // ===========[Commands]===========
   async register(data: CreateStaff): Promise<Staff | undefined> {
     try {
+      const hashPassword = await encryptPassword(data.password);
       const staffData: Staff = {
         ...data,
-        isActive: true,
         code: await generateCode(this.db, staff, "code", "STF"),
+        isActive: true,
+        password: hashPassword,
       };
 
       const staffRecord = await this.db

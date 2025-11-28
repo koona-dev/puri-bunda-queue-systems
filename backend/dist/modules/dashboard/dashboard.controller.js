@@ -12,6 +12,13 @@ const _common = require("@nestjs/common");
 const _dashboardservice = require("./dashboard.service");
 const _createdashboarddto = require("./dto/create-dashboard.dto");
 const _updatedashboarddto = require("./dto/update-dashboard.dto");
+const _jwtauthenticationguard = /*#__PURE__*/ _interop_require_default(require("../../utils/guards/jwt-authentication.guard"));
+const _swagger = require("@nestjs/swagger");
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -48,6 +55,10 @@ let DashboardController = class DashboardController {
 };
 _ts_decorate([
     (0, _common.Post)(),
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
+    (0, _swagger.ApiBody)({
+        type: _createdashboarddto.CreateDashboardDto
+    }),
     _ts_param(0, (0, _common.Body)()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
@@ -57,13 +68,15 @@ _ts_decorate([
 ], DashboardController.prototype, "create", null);
 _ts_decorate([
     (0, _common.Get)(),
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", []),
     _ts_metadata("design:returntype", void 0)
 ], DashboardController.prototype, "findAll", null);
 _ts_decorate([
-    (0, _common.Get)(':id'),
-    _ts_param(0, (0, _common.Param)('id')),
+    (0, _common.Get)(":id"),
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
+    _ts_param(0, (0, _common.Param)("id")),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         String
@@ -71,8 +84,12 @@ _ts_decorate([
     _ts_metadata("design:returntype", void 0)
 ], DashboardController.prototype, "findOne", null);
 _ts_decorate([
-    (0, _common.Patch)(':id'),
-    _ts_param(0, (0, _common.Param)('id')),
+    (0, _common.Patch)(":id"),
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
+    (0, _swagger.ApiBody)({
+        type: _updatedashboarddto.UpdateDashboardDto
+    }),
+    _ts_param(0, (0, _common.Param)("id")),
     _ts_param(1, (0, _common.Body)()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
@@ -82,8 +99,9 @@ _ts_decorate([
     _ts_metadata("design:returntype", void 0)
 ], DashboardController.prototype, "update", null);
 _ts_decorate([
-    (0, _common.Delete)(':id'),
-    _ts_param(0, (0, _common.Param)('id')),
+    (0, _common.Delete)(":id"),
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
+    _ts_param(0, (0, _common.Param)("id")),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         String
@@ -91,7 +109,7 @@ _ts_decorate([
     _ts_metadata("design:returntype", void 0)
 ], DashboardController.prototype, "remove", null);
 DashboardController = _ts_decorate([
-    (0, _common.Controller)('dashboard'),
+    (0, _common.Controller)("dashboard"),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         typeof _dashboardservice.DashboardService === "undefined" ? Object : _dashboardservice.DashboardService

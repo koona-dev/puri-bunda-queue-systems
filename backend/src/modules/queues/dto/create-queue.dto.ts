@@ -1,4 +1,5 @@
 import {
+  IsDate,
   IsDateString,
   IsEnum,
   IsNotEmpty,
@@ -34,22 +35,22 @@ export class CreateQueueDto {
   @IsString()
   staffId: string;
 
-  @ApiProperty()
+  @ApiProperty({ enum: QueueType })
   @IsNotEmpty()
   @IsEnum(QueueType)
   queueType: QueueType;
 
-  @ApiProperty()
+  @ApiProperty({ enum: Priority })
   @IsNotEmpty()
   @IsEnum(Priority)
   priority: Priority;
 
-  @ApiProperty()
+  @ApiProperty({ enum: ServiceType })
   @IsNotEmpty()
   @IsEnum(ServiceType)
   serviceType: ServiceType;
 
-  @ApiProperty()
+  @ApiProperty({ enum: ReferenceType })
   @IsNotEmpty()
   @IsEnum(ReferenceType)
   referenceType: ReferenceType;
@@ -66,7 +67,7 @@ export class CreateQueueDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsDateString()
+  @IsDate()
   @Type(() => Date)
   symptomsStartDate: Date;
 
@@ -77,7 +78,7 @@ export class CreateQueueDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsDateString()
+  @IsDate()
   @Type(() => Date)
   reservationDate: Date;
 

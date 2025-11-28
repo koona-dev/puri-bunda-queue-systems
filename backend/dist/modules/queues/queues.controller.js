@@ -13,6 +13,8 @@ const _queuesservice = /*#__PURE__*/ _interop_require_default(require("./queues.
 const _queuesqueryparams = require("./dto/queues-query.params");
 const _createqueuedto = require("./dto/create-queue.dto");
 const _updatequeuedto = require("./dto/update-queue.dto");
+const _jwtauthenticationguard = /*#__PURE__*/ _interop_require_default(require("../../utils/guards/jwt-authentication.guard"));
+const _swagger = require("@nestjs/swagger");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -57,6 +59,7 @@ let QueuesController = class QueuesController {
 };
 _ts_decorate([
     (0, _common.Get)(),
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
     _ts_param(0, (0, _common.Query)()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
@@ -65,7 +68,8 @@ _ts_decorate([
     _ts_metadata("design:returntype", void 0)
 ], QueuesController.prototype, "findOne", null);
 _ts_decorate([
-    (0, _common.Get)('list'),
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
+    (0, _common.Get)("list"),
     _ts_param(0, (0, _common.Query)()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
@@ -74,6 +78,10 @@ _ts_decorate([
     _ts_metadata("design:returntype", void 0)
 ], QueuesController.prototype, "findMany", null);
 _ts_decorate([
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
+    (0, _swagger.ApiBody)({
+        type: _createqueuedto.CreateQueueDto
+    }),
     (0, _common.Post)(),
     _ts_param(0, (0, _common.Body)()),
     _ts_metadata("design:type", Function),
@@ -83,6 +91,10 @@ _ts_decorate([
     _ts_metadata("design:returntype", void 0)
 ], QueuesController.prototype, "create", null);
 _ts_decorate([
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
+    (0, _swagger.ApiBody)({
+        type: _updatequeuedto.UpdateQueueDto
+    }),
     (0, _common.Patch)(":queueId"),
     _ts_param(0, (0, _common.Param)("queueId")),
     _ts_param(1, (0, _common.Body)()),
@@ -94,6 +106,7 @@ _ts_decorate([
     _ts_metadata("design:returntype", void 0)
 ], QueuesController.prototype, "update", null);
 _ts_decorate([
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
     (0, _common.Delete)(":queueId"),
     _ts_param(0, (0, _common.Param)("queueId")),
     _ts_metadata("design:type", Function),

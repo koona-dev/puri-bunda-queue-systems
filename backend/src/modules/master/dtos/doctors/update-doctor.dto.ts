@@ -1,7 +1,6 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import {
-  IsBoolean,
-  IsDateString,
+  IsBoolean,  
   IsNumber,
   IsOptional,
   IsString,
@@ -30,12 +29,12 @@ export class UpdateDoctorDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsDateString()
+  @IsString()
   startTime: string;
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsDateString()
+  @IsString()
   endTime: string;
 
   @ApiPropertyOptional()

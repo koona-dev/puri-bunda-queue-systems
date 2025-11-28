@@ -1,6 +1,7 @@
 import { ApiPropertyOptional, PartialType } from "@nestjs/swagger";
 import {
   IsBoolean,
+  IsDate,
   IsDateString,
   IsEnum,
   IsOptional,
@@ -26,11 +27,11 @@ export class UpdatePatientDto extends PartialType(CreatePatientDto) {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsDateString()
+  @IsDate()
   @Type(() => Date)
   birthDate?: Date;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: Gender })
   @IsOptional()
   @IsEnum(Gender)
   gender?: Gender;
@@ -45,12 +46,12 @@ export class UpdatePatientDto extends PartialType(CreatePatientDto) {
   @IsString()
   address?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: PatientType })
   @IsOptional()
   @IsEnum(PatientType)
   patientType?: PatientType;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ enum: PatientClass })
   @IsOptional()
   @IsEnum(PatientClass)
   patientClass?: PatientClass;

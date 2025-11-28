@@ -29,6 +29,7 @@ import { Patients } from "../master/entities/patients.entity";
 @Controller("auth")
 export class AuthController {
   constructor(
+    @Inject("AUTH_SERVICE")
     private readonly authService: AuthService,
     @Inject("JWT_AUTH_SERVICE")
     private readonly jwtAuthService: JwtAuthService,

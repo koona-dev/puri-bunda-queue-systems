@@ -12,7 +12,9 @@ export const comparePassword = (hashPassword: string, password: string) => {
 };
 
 export const generateToken = (payload: string) => {
-  return jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: "1d" });
+  return jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET!, {
+    expiresIn: "1d",
+  });
 };
 
 export const generateRandomString = (length = 128) => {

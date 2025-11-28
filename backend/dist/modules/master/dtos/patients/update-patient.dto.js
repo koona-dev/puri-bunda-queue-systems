@@ -27,52 +27,68 @@ function _ts_metadata(k, v) {
 let UpdatePatientDto = class UpdatePatientDto extends (0, _swagger.PartialType)(_createpatientdto.CreatePatientDto) {
 };
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdatePatientDto.prototype, "nik", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdatePatientDto.prototype, "name", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
-    (0, _classvalidator.IsDateString)(),
+    (0, _classvalidator.IsDate)(),
     (0, _classtransformer.Type)(()=>Date),
     _ts_metadata("design:type", typeof Date === "undefined" ? Object : Date)
 ], UpdatePatientDto.prototype, "birthDate", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)({
+        enum: _genderenum.Gender
+    }),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsEnum)(_genderenum.Gender),
     _ts_metadata("design:type", typeof _genderenum.Gender === "undefined" ? Object : _genderenum.Gender)
 ], UpdatePatientDto.prototype, "gender", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdatePatientDto.prototype, "phone", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)
 ], UpdatePatientDto.prototype, "address", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)({
+        enum: _patienttypeenum.PatientType
+    }),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsEnum)(_patienttypeenum.PatientType),
     _ts_metadata("design:type", typeof _patienttypeenum.PatientType === "undefined" ? Object : _patienttypeenum.PatientType)
 ], UpdatePatientDto.prototype, "patientType", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)({
+        enum: _patientclassenum.PatientClass
+    }),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsEnum)(_patientclassenum.PatientClass),
     _ts_metadata("design:type", typeof _patientclassenum.PatientClass === "undefined" ? Object : _patientclassenum.PatientClass)
 ], UpdatePatientDto.prototype, "patientClass", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsBoolean)(),
     _ts_metadata("design:type", Boolean)
 ], UpdatePatientDto.prototype, "haveAssurance", void 0);
 _ts_decorate([
+    (0, _swagger.ApiPropertyOptional)(),
     (0, _classvalidator.IsOptional)(),
     (0, _classvalidator.IsString)(),
     _ts_metadata("design:type", String)

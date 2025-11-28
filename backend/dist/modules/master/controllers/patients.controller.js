@@ -13,6 +13,8 @@ const _createpatientdto = require("../dtos/patients/create-patient.dto");
 const _updatepatientdto = require("../dtos/patients/update-patient.dto");
 const _patientsservice = /*#__PURE__*/ _interop_require_default(require("../services/patients.service"));
 const _patientsqueryparams = require("../dtos/patients/patients-query.params");
+const _jwtauthenticationguard = /*#__PURE__*/ _interop_require_default(require("../../../utils/guards/jwt-authentication.guard"));
+const _swagger = require("@nestjs/swagger");
 function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -57,6 +59,7 @@ let PatientsController = class PatientsController {
 };
 _ts_decorate([
     (0, _common.Get)(),
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
     _ts_param(0, (0, _common.Query)()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
@@ -66,6 +69,7 @@ _ts_decorate([
 ], PatientsController.prototype, "findOne", null);
 _ts_decorate([
     (0, _common.Get)("list"),
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
     _ts_param(0, (0, _common.Query)()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
@@ -75,6 +79,10 @@ _ts_decorate([
 ], PatientsController.prototype, "findMany", null);
 _ts_decorate([
     (0, _common.Post)(),
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
+    (0, _swagger.ApiBody)({
+        type: _createpatientdto.CreatePatientDto
+    }),
     _ts_param(0, (0, _common.Body)()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
@@ -84,6 +92,10 @@ _ts_decorate([
 ], PatientsController.prototype, "create", null);
 _ts_decorate([
     (0, _common.Patch)(":patientId"),
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
+    (0, _swagger.ApiBody)({
+        type: _updatepatientdto.UpdatePatientDto
+    }),
     _ts_param(0, (0, _common.Param)("patientId")),
     _ts_param(1, (0, _common.Body)()),
     _ts_metadata("design:type", Function),
@@ -95,6 +107,7 @@ _ts_decorate([
 ], PatientsController.prototype, "update", null);
 _ts_decorate([
     (0, _common.Delete)(":patientId"),
+    (0, _common.UseGuards)(_jwtauthenticationguard.default),
     _ts_param(0, (0, _common.Param)("patientId")),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [

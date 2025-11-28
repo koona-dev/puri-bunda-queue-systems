@@ -110,7 +110,7 @@ class QueuesService {
           conditions.push(eq(queue.reservationDate, query.reservationDate));
         if (query.status) conditions.push(eq(queue.status, query.status));
 
-        return conditions.length > 0 ? and(...conditions) : undefined;
+        return and(...conditions);
       },
       orderBy: (queue, { asc }) => [
         sql`
@@ -175,7 +175,7 @@ class QueuesService {
         ...data,
         queueNumber: await generateCode(
           this.db,
-          queues,          
+          queues,
           "queueNumber",
           data.queueType.charAt(0)
         ),

@@ -21,15 +21,13 @@ export class DoctorsController {
   constructor(private readonly doctorsService: DoctorsService) {}
 
   @Get()
-  @UseGuards(JwtAuthenticationGuard)
-  @ApiQuery({ type: DoctorsQueryParams })
+  @UseGuards(JwtAuthenticationGuard)  
   findOne(@Query() query: DoctorsQueryParams) {
     return this.doctorsService.findOne(query);
   }
 
-  @Get()
-  @UseGuards(JwtAuthenticationGuard)
-  @ApiQuery({ type: DoctorsQueryParams })
+  @Get("list")
+  @UseGuards(JwtAuthenticationGuard)  
   findAll(@Query() query: DoctorsQueryParams) {
     return this.doctorsService.findMany(query);
   }

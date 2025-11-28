@@ -6,10 +6,10 @@ import { QueueModule } from "./modules/queues/queues.module";
 import { MasterModule } from "./modules/master/master.module";
 import { DBSchema } from "./database/schemas";
 import { DashboardModule } from "./modules/dashboard/dashboard.module";
-import { AuthModule } from './modules/auth/auth.module';
+import { AuthModule } from "./modules/auth/auth.module";
 
 @Module({
-  imports: [    
+  imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -32,10 +32,10 @@ import { AuthModule } from './modules/auth/auth.module';
         };
       },
     }),
+    AuthModule,
+    DashboardModule,
     MasterModule,
     QueueModule,
-    DashboardModule,
-    AuthModule,
   ],
 })
 export class AppModule {}

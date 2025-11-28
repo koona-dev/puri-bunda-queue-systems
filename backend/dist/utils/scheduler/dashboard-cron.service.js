@@ -2,14 +2,15 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-Object.defineProperty(exports, "DashboardService", {
+Object.defineProperty(exports, "DashboardCronService", {
     enumerable: true,
     get: function() {
-        return DashboardService;
+        return DashboardCronService;
     }
 });
-const _nodepostgres = require("drizzle-orm/node-postgres");
 const _common = require("@nestjs/common");
+const _schedule = require("@nestjs/schedule");
+const _nodepostgres = require("drizzle-orm/node-postgres");
 const _dashboardview = require("../../database/schemas/dashboard.view");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -25,32 +26,31 @@ function _ts_param(paramIndex, decorator) {
         decorator(target, key, paramIndex);
     };
 }
-let DashboardService = class DashboardService {
-    // ===========[Queries]===========
-    async getDashboardSummary() {
-        try {
-            const queueSummary = await this.db.select().from(_dashboardview.dashboardSummary);
-            const staffSummary = await this.db.select().from(_dashboardview.queueStatsByStaff);
-            const topStaffPerformance = await this.db.select().from(_dashboardview.staffPerformance);
-            const hourlyQueue = await this.db.select().from(_dashboardview.hourlyQueueDistribution);
-            return {
-                queuesSummmary: queueSummary[0],
-                staffSummary: staffSummary,
-                topStaffPerformance: topStaffPerformance,
-                staffServiceTimeAvg: hourlyQueue
-            };
-        } catch (error) {}
+let DashboardCronService = class DashboardCronService {
+    async generateDashboardGraphCron() {
+        await this.db.refreshMaterializedView(_dashboardview.dashboardSummary);
+        await this.db.refreshMaterializedView(_dashboardview.queueStatsByStaff);
+        await this.db.refreshMaterializedView(_dashboardview.staffPerformance);
+        await this.db.refreshMaterializedView(_dashboardview.hourlyQueueDistribution);
     }
     constructor(db){
         this.db = db;
+        this.logger = new _common.Logger(DashboardCronService.name);
     }
 };
-DashboardService = _ts_decorate([
+_ts_decorate([
+    (0, _schedule.Cron)(_schedule.CronExpression.EVERY_30_MINUTES),
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", []),
+    _ts_metadata("design:returntype", Promise)
+], DashboardCronService.prototype, "generateDashboardGraphCron", null);
+DashboardCronService = _ts_decorate([
+    (0, _common.Injectable)(),
     _ts_param(0, (0, _common.Inject)("DB_PG")),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         typeof _nodepostgres.NodePgDatabase === "undefined" ? Object : _nodepostgres.NodePgDatabase
     ])
-], DashboardService);
+], DashboardCronService);
 
-//# sourceMappingURL=dashboard.service.js.map
+//# sourceMappingURL=dashboard-cron.service.js.map

@@ -1,0 +1,15 @@
+
+CREATE MATERIALIZED VIEW "public"."dashboard_summary" AS (select COUNT(*) FILTER (WHERE status = 'Waiting') as "total_waiting", COUNT(*) FILTER (WHERE status = 'Called') as "total_called", COUNT(*) FILTER (WHERE status = 'Done') as "total_done", COUNT(*) FILTER (WHERE status = 'Cancelled') as "total_cancelled", COUNT(*) FILTER (WHERE queue_type = 'Reservasi') as "total_reservation", COUNT(*) FILTER (WHERE queue_type = 'Walk-In') as "total_walkin", 
+      AVG(EXTRACT(EPOCH FROM (completed_at - called_at))/60) 
+      FILTER (WHERE completed_at IS NOT NULL AND called_at IS NOT NULL)
+     as "avg_service_time_minutes", NOW() as "last_updated" from "queues" where DATE(created_at) = CURRENT_DATE);--> statement-breakpoint
+CREATE MATERIALIZED VIEW "public"."hourly_queue_distribution" AS (select EXTRACT(HOUR FROM created_at) as "hour", COUNT(*) FILTER (WHERE queue_type = 'Reservasi') as "total_reservation", COUNT(*) FILTER (WHERE queue_type = 'Walk-In') as "total_walkin", COUNT(*) as "total_queues", 
+      AVG(EXTRACT(EPOCH FROM (completed_at - called_at))/60) 
+      FILTER (WHERE completed_at IS NOT NULL)
+     as "avg_processing_minutes" from "queues" where DATE(created_at) = CURRENT_DATE group by EXTRACT(HOUR FROM created_at) order by hour);--> statement-breakpoint
+CREATE MATERIALIZED VIEW "public"."queue_stats_by_staff" AS (select "staff"."id" as "staff_id", "staff"."code" as "staff_code", "staff"."name" as "staff_name", COUNT(*) FILTER (WHERE "queues"."status" = 'Waiting') as "total_waiting", COUNT(*) FILTER (WHERE "queues"."status" = 'Called') as "total_called", COUNT(*) FILTER (WHERE "queues"."status" = 'Done') as "total_done", COUNT(*) as "total_queues", 
+          AVG(EXTRACT(EPOCH FROM (COALESCE("queues"."called_at", NOW()) - "queues"."created_at"))/60)
+         as "avg_waiting_time_minutes", NOW() as "last_updated" from "staff" left join "queues" on "queues"."staff_id" = "staff"."id" AND DATE("queues"."created_at") = CURRENT_DATE where "staff"."is_active" = true group by "staff"."id", "staff"."code", "staff"."name");--> statement-breakpoint
+CREATE MATERIALIZED VIEW "public"."staff_performance" AS (select "staff"."id", "staff"."code", "staff"."name" as "staff_name", "staff"."loket_number", "clinics"."name" as "clinic_name", COUNT("queues"."id") as "total_served", 
+      AVG(EXTRACT(EPOCH FROM ("queues"."completed_at" - "queues"."called_at"))/60)
+     as "avg_service_time_minutes", COUNT("queue_calls"."id") as "total_call_attempts", MAX("queues"."completed_at") as "last_service_at", NOW() as "last_updated" from "staff" left join "clinics" on "staff"."clinic_id" = "clinics"."id" left join "queues" on "queues"."staff_id" = "staff"."id" AND "queues"."status" = 'Done' AND DATE("queues"."created_at") = CURRENT_DATE left join "queue_calls" on "queue_calls"."queue_id" = "queues"."id" where "staff"."is_active" = true group by "staff"."id", "staff"."code", "staff"."name", "staff"."loket_number", "clinics"."name" order by total_served DESC);

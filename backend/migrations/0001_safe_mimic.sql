@@ -1,2 +1,0 @@
-ALTER TABLE "patients" ALTER COLUMN "patient_type" SET DATA TYPE "public"."patient_type" USING "patient_type"::"public"."patient_type";--> statement-breakpoint
-ALTER TABLE "patients" ALTER COLUMN "patient_class" SET DATA TYPE "public"."patient_class" USING "patient_class"::"public"."patient_class";

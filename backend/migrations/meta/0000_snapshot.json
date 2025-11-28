@@ -1,5 +1,5 @@
 {
-  "id": "19c86286-3146-478d-bbe7-4c321a6d9d70",
+  "id": "4667c11e-b475-4cf1-acf9-7fa73ce7c2de",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -303,13 +303,15 @@
         },
         "patient_type": {
           "name": "patient_type",
-          "type": "varchar",
+          "type": "patient_type",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
         "patient_class": {
           "name": "patient_class",
-          "type": "varchar",
+          "type": "patient_class",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
@@ -1192,30 +1194,10 @@
       "isExisting": false,
       "materialized": true
     },
-    "public.queue_stats_by_clinic": {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "code": {
-          "name": "code",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "definition": "select \"clinics\".\"id\", \"clinics\".\"code\", \"clinics\".\"name\", COUNT(*) FILTER (WHERE \"queues\".\"status\" = 'Waiting') as \"total_waiting\", COUNT(*) FILTER (WHERE \"queues\".\"status\" = 'Called') as \"total_called\", COUNT(*) FILTER (WHERE \"queues\".\"status\" = 'Done') as \"total_done\", COUNT(*) as \"total_queues\", \n          AVG(EXTRACT(EPOCH FROM (COALESCE(\"queues\".\"called_at\", NOW()) - \"queues\".\"created_at\"))/60)\n         as \"avg_waiting_time_minutes\", NOW() as \"last_updated\" from \"clinics\" left join \"queues\" on \"queues\".\"clinic_id\" = \"clinics\".\"id\" AND DATE(\"queues\".\"created_at\") = CURRENT_DATE group by \"clinics\".\"id\", \"clinics\".\"code\", \"clinics\".\"name\"",
-      "name": "queue_stats_by_clinic",
+    "public.queue_stats_by_staff": {
+      "columns": {},
+      "definition": "select {staff.id} as \"staff_id\", {staff.code} as \"staff_code\", {staff.name} as \"staff_name\", COUNT(*) FILTER (WHERE \"queues\".\"status\" = 'Waiting') as \"total_waiting\", COUNT(*) FILTER (WHERE \"queues\".\"status\" = 'Called') as \"total_called\", COUNT(*) FILTER (WHERE \"queues\".\"status\" = 'Done') as \"total_done\", COUNT(*) as \"total_queues\", \n          AVG(EXTRACT(EPOCH FROM (COALESCE(\"queues\".\"called_at\", NOW()) - \"queues\".\"created_at\"))/60)\n         as \"avg_waiting_time_minutes\", NOW() as \"last_updated\" from \"staff\" left join \"queues\" on \"queues\".\"staff_id\" = \"staff\".\"id\" AND DATE(\"queues\".\"created_at\") = CURRENT_DATE where \"staff\".\"is_active\" = true group by \"staff\".\"id\", \"staff\".\"code\", \"staff\".\"name\"",
+      "name": "queue_stats_by_staff",
       "schema": "public",
       "isExisting": false,
       "materialized": true
@@ -1242,7 +1224,7 @@
           "notNull": true
         }
       },
-      "definition": "select \"staff\".\"id\", \"staff\".\"code\", \"staff\".\"name\" as \"staff_name\", \"staff\".\"loket_number\", \"clinics\".\"name\" as \"clinic_name\", COUNT(\"queues\".\"id\") as \"total_served\", \n      AVG(EXTRACT(EPOCH FROM (\"queues\".\"completed_at\" - \"queues\".\"called_at\"))/60)\n     as \"avg_service_time_minutes\", COUNT(\"queue_calls\".\"id\") as \"total_call_attempts\", MAX(\"queues\".\"completed_at\") as \"last_service_at\", NOW() as \"last_updated\" from \"staff\" left join \"clinics\" on \"staff\".\"clinic_id\" = \"clinics\".\"id\" left join \"queues\" on \"queues\".\"staff_id\" = \"staff\".\"id\" AND \"queues\".\"status\" = 'Done' AND DATE(\"queues\".\"created_at\") = CURRENT_DATE left join \"queue_calls\" on \"queue_calls\".\"queue_id\" = \"queues\".\"id\" where \"staff\".\"is_active\" = true group by \"staff\".\"id\", \"staff\".\"code\", \"staff\".\"name\", \"staff\".\"loket_number\", \"clinics\".\"name\"",
+      "definition": "select \"staff\".\"id\", \"staff\".\"code\", \"staff\".\"name\" as \"staff_name\", \"staff\".\"loket_number\", \"clinics\".\"name\" as \"clinic_name\", COUNT(\"queues\".\"id\") as \"total_served\", \n      AVG(EXTRACT(EPOCH FROM (\"queues\".\"completed_at\" - \"queues\".\"called_at\"))/60)\n     as \"avg_service_time_minutes\", COUNT(\"queue_calls\".\"id\") as \"total_call_attempts\", MAX(\"queues\".\"completed_at\") as \"last_service_at\", NOW() as \"last_updated\" from \"staff\" left join \"clinics\" on \"staff\".\"clinic_id\" = \"clinics\".\"id\" left join \"queues\" on \"queues\".\"staff_id\" = \"staff\".\"id\" AND \"queues\".\"status\" = 'Done' AND DATE(\"queues\".\"created_at\") = CURRENT_DATE left join \"queue_calls\" on \"queue_calls\".\"queue_id\" = \"queues\".\"id\" where \"staff\".\"is_active\" = true group by \"staff\".\"id\", \"staff\".\"code\", \"staff\".\"name\", \"staff\".\"loket_number\", \"clinics\".\"name\" order by total_served DESC",
       "name": "staff_performance",
       "schema": "public",
       "isExisting": false,

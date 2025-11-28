@@ -16,6 +16,8 @@ const _mastermodule = require("./modules/master/master.module");
 const _schemas = require("./database/schemas");
 const _dashboardmodule = require("./modules/dashboard/dashboard.module");
 const _authmodule = require("./modules/auth/auth.module");
+const _cronmodule = require("./utils/scheduler/cron.module");
+const _schedule = require("@nestjs/schedule");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -49,6 +51,8 @@ AppModule = _ts_decorate([
                     };
                 }
             }),
+            _schedule.ScheduleModule.forRoot(),
+            _cronmodule.CronModule,
             _authmodule.AuthModule,
             _dashboardmodule.DashboardModule,
             _mastermodule.MasterModule,

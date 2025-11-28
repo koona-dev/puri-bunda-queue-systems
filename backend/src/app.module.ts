@@ -7,6 +7,8 @@ import { MasterModule } from "./modules/master/master.module";
 import { DBSchema } from "./database/schemas";
 import { DashboardModule } from "./modules/dashboard/dashboard.module";
 import { AuthModule } from "./modules/auth/auth.module";
+import { CronModule } from "./utils/scheduler/cron.module";
+import { ScheduleModule } from "@nestjs/schedule";
 
 @Module({
   imports: [
@@ -32,6 +34,8 @@ import { AuthModule } from "./modules/auth/auth.module";
         };
       },
     }),
+    ScheduleModule.forRoot(),
+    CronModule,
     AuthModule,
     DashboardModule,
     MasterModule,

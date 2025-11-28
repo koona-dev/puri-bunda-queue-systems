@@ -1,26 +1,32 @@
-import { Injectable } from '@nestjs/common';
-import { CreateDashboardDto } from './dto/create-dashboard.dto';
-import { UpdateDashboardDto } from './dto/update-dashboard.dto';
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import { Inject } from "@nestjs/common";
 
-@Injectable()
+import { DBSchema } from "src/database/schemas";
+import {
+  dashboardSummary,
+  hourlyQueueDistribution,
+  queueStatsByStaff,
+  staffPerformance,
+} from "src/database/schemas/dashboard.view";
+import { DashboardSummary } from "./entities/dashboard.entity";
+
 export class DashboardService {
-  create(createDashboardDto: CreateDashboardDto) {
-    return 'This action adds a new dashboard';
-  }
+  constructor(@Inject("DB_PG") private db: NodePgDatabase<typeof DBSchema>) {}
 
-  findAll() {
-    return `This action returns all dashboard`;
-  }
+  // ===========[Queries]===========
+  async getDashboardSummary(): Promise<DashboardSummary | undefined> {
+    try {
+      const queueSummary = await this.db.select().from(dashboardSummary);
+      const staffSummary = await this.db.select().from(queueStatsByStaff);
+      const topStaffPerformance = await this.db.select().from(staffPerformance);
+      const hourlyQueue = await this.db.select().from(hourlyQueueDistribution);
 
-  findOne(id: number) {
-    return `This action returns a #${id} dashboard`;
-  }
-
-  update(id: number, updateDashboardDto: UpdateDashboardDto) {
-    return `This action updates a #${id} dashboard`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} dashboard`;
+      return {
+        queuesSummmary: queueSummary[0],
+        staffSummary: staffSummary,
+        topStaffPerformance: topStaffPerformance,
+        staffServiceTimeAvg: hourlyQueue,
+      };
+    } catch (error) {}
   }
 }

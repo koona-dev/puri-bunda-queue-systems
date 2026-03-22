@@ -4,7 +4,7 @@ import Dashboard from "@pages/Dashboard";
 import Queues from "@pages/Queues";
 import NotFound from "@pages/NotFound";
 import Master from "@/pages/Master";
-import { LogIn } from "lucide-react";
+import Login from "@/pages/Login";
 
 export const router = createBrowserRouter([
   {
@@ -12,10 +12,10 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: <Dashboard /> },
-      { path: "login", element: <LogIn /> },
       { path: "queues", element: <Queues /> },
       { path: "master", element: <Master /> },
       { path: "*", element: <NotFound /> },
     ],
   },
+  { path: "login", element: <Login /> },
 ]);

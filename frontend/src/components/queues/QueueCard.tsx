@@ -1,4 +1,4 @@
-import { GripVertical, Hash, MapPin, User } from "lucide-react";
+import { GripVertical } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -33,13 +33,16 @@ const PRIORITY_VARIANT: Record<
   Normal: "secondary",
 };
 
-const STATUS_BADGE_VARIANT: Record<
-  QueueStatus,
-  "info" | "warning" | "success"
-> = {
+const STATUS_BADGE_VARIANT: Record<QueueStatus, "info" | "warning" | "success"> = {
   Waiting: "info",
   Called: "warning",
   Done: "success",
+};
+
+const PRIORITY_NUMBER_COLOR: Record<QueueItem["priority"], string> = {
+  Emergency: "bg-red-100 text-red-700",
+  Urgent: "bg-amber-100 text-amber-700",
+  Normal: "bg-muted text-muted-foreground",
 };
 
 export function QueueCard({ queue, onStatusChange }: QueueCardProps) {
@@ -54,71 +57,77 @@ export function QueueCard({ queue, onStatusChange }: QueueCardProps) {
   const nextStatus = STATUS_NEXT[queue.status];
 
   return (
-    <div ref={setNodeRef} style={style}>
+    <div ref={setNodeRef} style={style} className="mb-3">
       <Card
         className={cn(
-          "mb-3 select-none",
-          isDragging && "opacity-50 shadow-lg ring-2 ring-primary",
-          queue.priority === "Emergency" && "border-red-400",
-          queue.priority === "Urgent" && "border-amber-400"
+          "select-none transition-shadow",
+          isDragging && "opacity-50 shadow-xl ring-2 ring-primary",
+          queue.priority === "Emergency" && "border-l-4 border-l-red-500",
+          queue.priority === "Urgent" && "border-l-4 border-l-amber-400",
+          queue.priority === "Normal" && "border-l-4 border-l-transparent"
         )}
       >
-        <CardContent className="p-4">
-          <div className="flex items-start gap-3">
+        <CardContent className="px-4 py-3">
+          <div className="flex items-center gap-3">
             {/* Drag handle */}
             <button
-              className="mt-0.5 cursor-grab touch-none text-muted-foreground active:cursor-grabbing"
+              className="cursor-grab touch-none text-muted-foreground/50 hover:text-muted-foreground active:cursor-grabbing shrink-0"
               {...attributes}
               {...listeners}
               aria-label="Drag to reorder"
             >
-              <GripVertical className="h-5 w-5" />
+              <GripVertical className="h-4 w-4" />
             </button>
 
-            {/* Queue info */}
-            <div className="min-w-0 flex-1 space-y-2">
-              {/* Top row: queue number + badges */}
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="font-bold text-base">{queue.queueNumber}</span>
-                <Badge variant={PRIORITY_VARIANT[queue.priority]}>
-                  {queue.priority}
-                </Badge>
-                <Badge variant={STATUS_BADGE_VARIANT[queue.status]}>
-                  {queue.status}
-                </Badge>
-              </div>
-
-              {/* Details grid */}
-              <div className="grid grid-cols-1 gap-1 text-sm text-muted-foreground sm:grid-cols-2">
-                <div className="flex items-center gap-1.5">
-                  <User className="h-3.5 w-3.5 shrink-0" />
-                  <span className="truncate">{queue.patientName}</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Hash className="h-3.5 w-3.5 shrink-0" />
-                  <span>Loket {queue.loketNumber}</span>
-                </div>
-                <div className="flex items-center gap-1.5 sm:col-span-2">
-                  <MapPin className="h-3.5 w-3.5 shrink-0" />
-                  <span className="truncate">{queue.clinicName}</span>
-                </div>
-              </div>
+            {/* Queue number pill */}
+            <div
+              className={cn(
+                "flex h-10 w-14 shrink-0 items-center justify-center rounded-lg text-sm font-bold",
+                PRIORITY_NUMBER_COLOR[queue.priority]
+              )}
+            >
+              {queue.queueNumber}
             </div>
 
-            {/* Action button */}
-            {nextStatus && (
-              <Button
-                size="sm"
-                variant={queue.status === "Called" ? "default" : "outline"}
-                className="shrink-0"
-                onClick={() => onStatusChange(queue.id, nextStatus)}
-              >
-                {STATUS_LABEL[queue.status]}
-              </Button>
-            )}
+            {/* Patient & clinic info */}
+            <div className="min-w-0 flex-1">
+              <p className="truncate font-semibold text-sm leading-tight">
+                {queue.patientName}
+              </p>
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                {queue.clinicName} &middot; Loket {queue.loketNumber}
+              </p>
+            </div>
+
+            {/* Badges */}
+            <div className="flex shrink-0 flex-col items-end gap-1.5">
+              <Badge variant={PRIORITY_VARIANT[queue.priority]} className="text-[11px]">
+                {queue.priority}
+              </Badge>
+              <Badge variant={STATUS_BADGE_VARIANT[queue.status]} className="text-[11px]">
+                {queue.status}
+              </Badge>
+            </div>
+
+            {/* Action button — spacer div preserves column width for Done cards */}
+            <div className="shrink-0 pl-2">
+              {nextStatus ? (
+                <Button
+                  size="sm"
+                  variant={queue.status === "Called" ? "default" : "outline"}
+                  className="w-24"
+                  onClick={() => onStatusChange(queue.id, nextStatus)}
+                >
+                  {STATUS_LABEL[queue.status]}
+                </Button>
+              ) : (
+                <div className="w-24" aria-hidden="true" />
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
     </div>
   );
 }
+

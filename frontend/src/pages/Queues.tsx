@@ -151,12 +151,12 @@ export default function Queues() {
     ).length;
 
   return (
-    <div className="flex flex-col gap-4 p-6">
+    <div className="flex flex-col gap-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Antrian Klinik</h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="mt-1 text-sm text-muted-foreground">
             Kelola antrian pasien per klinik
           </p>
         </div>
@@ -165,31 +165,33 @@ export default function Queues() {
           variant={urgentOnly ? "default" : "outline"}
           size="sm"
           onClick={() => setUrgentOnly((v) => !v)}
-          className="gap-2"
+          className="shrink-0 mt-1 gap-2"
         >
           <AlertTriangle className="h-4 w-4" />
           {urgentOnly ? "Tampilkan Semua" : "Filter Prioritas"}
           {!urgentOnly && urgentCount > 0 && (
-            <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-500 text-[10px] font-bold text-white">
+            <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold text-white">
               {urgentCount}
             </span>
           )}
-          {urgentOnly && (
-            <ListFilter className="h-3.5 w-3.5" />
-          )}
+          {urgentOnly && <ListFilter className="h-3.5 w-3.5" />}
         </Button>
       </div>
 
       {/* Clinic Tabs */}
       <Tabs defaultValue={CLINICS[0].id}>
-        <TabsList className="flex h-auto flex-wrap gap-1">
+        <TabsList className="w-full justify-start gap-1 h-auto p-1">
           {CLINICS.map((clinic) => {
             const clinicQueues = queues[clinic.id] ?? [];
             const activeCount = clinicQueues.filter(
               (q) => q.status !== "Done"
             ).length;
             return (
-              <TabsTrigger key={clinic.id} value={clinic.id} className="gap-1.5">
+              <TabsTrigger
+                key={clinic.id}
+                value={clinic.id}
+                className="gap-2 px-4 py-1.5 text-sm"
+              >
                 {clinic.name}
                 {activeCount > 0 && (
                   <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">

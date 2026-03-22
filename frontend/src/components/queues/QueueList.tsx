@@ -74,10 +74,13 @@ export function QueueList({
       >
         {/* Urgent section pinned at top when not filtering */}
         {!urgentOnly && urgent.length > 0 && (
-          <div className="mb-4">
-            <div className="mb-2 flex items-center gap-1.5 text-sm font-medium text-amber-700">
-              <AlertTriangle className="h-4 w-4" />
-              Prioritas Tinggi ({urgent.length})
+          <div className="mb-6">
+            <div className="mb-3 flex items-center gap-2">
+              <AlertTriangle className="h-3.5 w-3.5 text-amber-600" />
+              <span className="text-xs font-semibold uppercase tracking-wide text-amber-700">
+                Prioritas Tinggi ({urgent.length})
+              </span>
+              <div className="flex-1 border-t border-amber-200" />
             </div>
             {urgent.map((queue) => (
               <QueueCard
@@ -89,22 +92,36 @@ export function QueueList({
           </div>
         )}
 
-        {/* Normal queues (or all when filtering) */}
-        {urgentOnly
-          ? urgent.map((queue) => (
-              <QueueCard
-                key={queue.id}
-                queue={queue}
-                onStatusChange={onStatusChange}
-              />
-            ))
-          : normal.map((queue) => (
+        {/* Normal queues section */}
+        {!urgentOnly && normal.length > 0 && (
+          <div>
+            {urgent.length > 0 && (
+              <div className="mb-3 flex items-center gap-2">
+                <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  Antrian Normal ({normal.length})
+                </span>
+                <div className="flex-1 border-t" />
+              </div>
+            )}
+            {normal.map((queue) => (
               <QueueCard
                 key={queue.id}
                 queue={queue}
                 onStatusChange={onStatusChange}
               />
             ))}
+          </div>
+        )}
+
+        {/* Urgent-only filter view */}
+        {urgentOnly &&
+          urgent.map((queue) => (
+            <QueueCard
+              key={queue.id}
+              queue={queue}
+              onStatusChange={onStatusChange}
+            />
+          ))}
       </SortableContext>
     </DndContext>
   );

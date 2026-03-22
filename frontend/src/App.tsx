@@ -1,10 +1,10 @@
+import { Outlet } from "react-router-dom";
 import Layout from "./Layout";
-import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
     <Layout>
-      <Dashboard />
+      <Outlet />
     </Layout>
   );
 }

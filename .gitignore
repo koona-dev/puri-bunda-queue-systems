@@ -1,7 +1,10 @@
 # compiled output
 /dist
+**/dist
 **/node_modules
 /build
+**/tsconfig.tsbuildinfo
+**/package-lock.json
 
 # Database
 **/migrations/*.js

@@ -93,6 +93,23 @@ $ cp .env.example .env
 - [Git Flow](https://www.atlassian.com/es/git/tutorials/comparing-workflows/gitflow-workflow)
 - [Git Commit Emoji](https://gitmoji.dev/)
 
+## GitHub automation workflow
+
+This repository now includes repository-level automation files to support issue-driven delivery with GitHub Copilot and pull requests:
+
+- `.github/copilot-instructions.md` for repo-specific execution rules
+- `.github/ISSUE_TEMPLATE/` for structured bug and feature requests
+- `.github/pull_request_template.md` for consistent PR descriptions
+- `.github/CODEOWNERS` to request review from the repository owner
+- `.github/workflows/` for pnpm-aware CI and Docker build validation
+
+Recommended repository settings to enable in GitHub:
+
+1. Protect `main`
+2. Require the CI workflows to pass before merge
+3. Require at least one approving review
+4. Only use auto-merge after those protections are enabled
+
 
 ## License
 

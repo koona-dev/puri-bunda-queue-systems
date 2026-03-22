@@ -1,10 +1,11 @@
-import Scaffold from "./layouts/scaffold";
+import Layout from "./Layout";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
-    <div>
-      <Scaffold />
-    </div>
+    <Layout>
+      <Dashboard />
+    </Layout>
   );
 }
 

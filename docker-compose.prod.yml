@@ -1,0 +1,118 @@
+version: '3.8'
+
+services:
+  # ===== PostgreSQL Database =====
+  postgres:
+    image: postgres:15-alpine
+    container_name: puri_bunda_postgres_prod
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=en_US.UTF-8"
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+      - ./backups:/backups  # Untuk database backups
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    # Security: Tidak expose port ke host di production
+    # ports:
+    #   - "5432:5432"
+
+  # ===== Backend - NestJS =====
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.prod
+      args:
+        NODE_ENV: production
+    container_name: puri_bunda_backend_prod
+    restart: always
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      # Database
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      # JWT
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      # CORS
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost}
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ===== Frontend - React + Nginx =====
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.prod
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+    container_name: puri_bunda_frontend_prod
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"  # Jika menggunakan SSL
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    volumes:
+      # Mount SSL certificates jika diperlukan
+      # - ./ssl:/etc/nginx/ssl:ro
+      - nginx_cache:/var/cache/nginx
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ===== Redis (Optional - untuk caching/sessions) =====
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: puri_bunda_redis_prod
+  #   restart: always
+  #   command: redis-server --requirepass ${REDIS_PASSWORD}
+  #   volumes:
+  #     - redis_data:/data
+  #   networks:
+  #     - app-network
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "ping"]
+  #     interval: 10s
+  #     timeout: 3s
+  #     retries: 5
+
+volumes:
+  postgres_prod_data:
+    driver: local
+  nginx_cache:
+    driver: local
+  # redis_data:
+  #   driver: local
+
+networks:
+  app-network:
+    driver: bridge

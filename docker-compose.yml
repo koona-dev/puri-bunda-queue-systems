@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  puri_bunda_postgres:
+    image: postgres:16-alpine
+    container_name: ${DB_CONTAINER_NAME}
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  puri_bunda_backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: puri_bunda_backend
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - backend/.env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - puri_bunda_postgres
+
+  puri_bunda_frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: puri_bunda_frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - puri_bunda_backend
+
+volumes:
+  postgres_data:

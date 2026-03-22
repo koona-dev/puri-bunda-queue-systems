@@ -1,8 +1,10 @@
 export default function Dashboard() {
   return (
-    <div>
-      <h1>Dashboard Page</h1>
-      <p>Welcome to the starter project with React Router!</p>
+    <div className="grid gap-4 md:grid-cols-3">
+      <div className="h-32 rounded-xl bg-muted/50" />
+      <div className="h-32 rounded-xl bg-muted/50" />
+      <div className="h-32 rounded-xl bg-muted/50" />
     </div>
   );
 }
+

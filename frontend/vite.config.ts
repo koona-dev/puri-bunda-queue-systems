@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),        // absolute import for src/*
+      "@": path.resolve(__dirname, "src"), // absolute import for src/*
       "@components": path.resolve(__dirname, "src/components"),
       "@pages": path.resolve(__dirname, "src/pages"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
@@ -19,8 +19,19 @@ export default defineConfig({
     },
   },
   server: {
+    host: true, // PENTING: Agar bisa diakses dari luar container
     port: 5173,
-    open: true, // open browser automatically
+    watch: {
+      usePolling: true, // PENTING: Untuk file watching di Docker
+    },
+    // Proxy API ke backend (optional, jika perlu)
+    proxy: {
+      "/api": {
+        target: "http://backend:3000",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
   },
   build: {
     sourcemap: false,

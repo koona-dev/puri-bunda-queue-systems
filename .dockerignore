@@ -1,4 +1,58 @@
-.react-router
-build
+# .dockerignore (di ROOT project)
+
+# Dependencies
 node_modules
+*/node_modules
+backend/node_modules
+frontend/node_modules
+
+# Build outputs
+dist
+build
+.next
+out
+backend/dist
+frontend/dist
+
+# Environment files
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Git
+.git
+.gitignore
+.github
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage
+.nyc_output
+*.test.ts
+*.spec.ts
+
+# Misc
 README.md
+LICENSE
+.prettierrc
+.eslintrc.js
+.editorconfig

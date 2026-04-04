@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "@/App";
-import Dashboard from "@pages/Dashboard";
-import Queues from "@pages/Queues";
-import NotFound from "@pages/NotFound";
+import Dashboard from "@/pages/Dashboard";
+import Queues from "@/pages/Queues";
+import NotFound from "@/pages/NotFound";
 import Master from "@/pages/Master";
 import Login from "@/pages/Login";
 

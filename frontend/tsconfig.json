@@ -13,20 +13,11 @@
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "@components*": ["./src/components/*"],
-      "@pages/*": ["./src/pages/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "@store/*": ["./src/store/*"],
-      "@services/*": ["./src/services/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
     "src/**/*",
-    "vite.config.ts",
-    "tailwind.config.ts",
-    "client/.react-router/types/**/*"
+    "vite.config.ts"
   ]
 }

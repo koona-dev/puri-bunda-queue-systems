@@ -6,8 +6,8 @@
   "type": "commonjs",
   "packageManager": "pnpm@10.15.0",
   "workspaces": [
-    "frontend/*",
-    "backend/*"
+    "frontend",
+    "backend"
   ],
   "scripts": {
     "dev:frontend": "pnpm --filter frontend dev",

@@ -4,8 +4,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 const _testing = require("@nestjs/testing");
 const _authcontroller = require("./auth.controller");
-const _authservice = require("./services/auth.service");
-describe('AuthController', ()=>{
+describe("AuthController", ()=>{
     let controller;
     beforeEach(async ()=>{
         const module = await _testing.Test.createTestingModule({
@@ -13,12 +12,32 @@ describe('AuthController', ()=>{
                 _authcontroller.AuthController
             ],
             providers: [
-                _authservice.AuthService
+                {
+                    provide: "AUTH_SERVICE",
+                    useValue: {
+                        getByNik: jest.fn(),
+                        getByUsername: jest.fn(),
+                        register: jest.fn()
+                    }
+                },
+                {
+                    provide: "JWT_AUTH_SERVICE",
+                    useValue: {
+                        generateJwtUser: jest.fn()
+                    }
+                },
+                {
+                    provide: "COOKIE_SERVICE",
+                    useValue: {
+                        generateCookie: jest.fn(),
+                        removeCookie: jest.fn()
+                    }
+                }
             ]
         }).compile();
         controller = module.get(_authcontroller.AuthController);
     });
-    it('should be defined', ()=>{
+    it("should be defined", ()=>{
         expect(controller).toBeDefined();
     });
 });

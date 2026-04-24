@@ -18,7 +18,16 @@ describe("QueueController", ()=>{
                 _queuescontroller.QueuesController
             ],
             providers: [
-                _queuesservice.default
+                {
+                    provide: _queuesservice.default,
+                    useValue: {
+                        create: jest.fn(),
+                        delete: jest.fn(),
+                        findMany: jest.fn(),
+                        findOne: jest.fn(),
+                        update: jest.fn()
+                    }
+                }
             ]
         }).compile();
         controller = module.get(_queuescontroller.QueuesController);

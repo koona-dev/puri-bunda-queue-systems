@@ -19,9 +19,10 @@ services:
       context: .
       dockerfile: backend/Dockerfile
     container_name: puri_bunda_backend
+    working_dir: /workspace/backend
     volumes:
-      - ./backend:/app
-      - /app/node_modules
+      - ./backend:/workspace/backend
+      - /workspace/backend/node_modules
     env_file:
       - backend/.env
     ports:
@@ -34,9 +35,10 @@ services:
       context: .
       dockerfile: frontend/Dockerfile
     container_name: puri_bunda_frontend
+    working_dir: /workspace/frontend
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - ./frontend:/workspace/frontend
+      - /workspace/frontend/node_modules
     ports:
       - "3000:3000"
     depends_on:

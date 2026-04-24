@@ -49,9 +49,9 @@ export const queueStatsByStaff = pgMaterializedView("queue_stats_by_staff").as(
   (qb) =>
     qb
       .select({
-        staffId: sql<string>`{staff.id}`.as("staff_id"),
-        staffCode: sql<string>`{staff.code}`.as("staff_code"),
-        staffName: sql<string>`{staff.name}`.as("staff_name"),
+        staffId: sql<string>`${staff.id}`.as("staff_id"),
+        staffCode: sql<string>`${staff.code}`.as("staff_code"),
+        staffName: sql<string>`${staff.name}`.as("staff_name"),
         totalWaiting:
           sql<number>`COUNT(*) FILTER (WHERE ${queues.status} = 'Waiting')`.as(
             "total_waiting"
@@ -84,10 +84,10 @@ export const staffPerformance = pgMaterializedView("staff_performance").as(
   (qb) =>
     qb
       .select({
-        staffId: sql<string>`{staff.id}`.as("staff_id"),
-        staffCode: sql<string>`{staff.code}`.as("staff_code"),
-        staffName: sql<string>`{staff.name}`.as("staff_name"),
-        loketNumber: sql<string>`{staff.loketNumber}`.as("loket_number"),
+        staffId: sql<string>`${staff.id}`.as("staff_id"),
+        staffCode: sql<string>`${staff.code}`.as("staff_code"),
+        staffName: sql<string>`${staff.name}`.as("staff_name"),
+        loketNumber: sql<string>`${staff.loketNumber}`.as("loket_number"),
         clinicName: sql<string>`${clinics.name}`.as("clinic_name"),
         totalServed: sql<number>`COUNT(${queues.id})`.as("total_served"),
         avgServiceTimeMinutes: sql<number>`

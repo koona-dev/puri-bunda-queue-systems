@@ -43,9 +43,9 @@ const dashboardSummary = (0, _pgcore.pgMaterializedView)("dashboard_summary").as
         lastUpdated: (0, _drizzleorm.sql)`NOW()`.as("last_updated")
     }).from(_queueschema.queues).where((0, _drizzleorm.sql)`DATE(created_at) = CURRENT_DATE`));
 const queueStatsByStaff = (0, _pgcore.pgMaterializedView)("queue_stats_by_staff").as((qb)=>qb.select({
-        staffId: (0, _drizzleorm.sql)`{staff.id}`.as("staff_id"),
-        staffCode: (0, _drizzleorm.sql)`{staff.code}`.as("staff_code"),
-        staffName: (0, _drizzleorm.sql)`{staff.name}`.as("staff_name"),
+        staffId: (0, _drizzleorm.sql)`${_masterschema.staff.id}`.as("staff_id"),
+        staffCode: (0, _drizzleorm.sql)`${_masterschema.staff.code}`.as("staff_code"),
+        staffName: (0, _drizzleorm.sql)`${_masterschema.staff.name}`.as("staff_name"),
         totalWaiting: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE ${_queueschema.queues.status} = 'Waiting')`.as("total_waiting"),
         totalCalled: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE ${_queueschema.queues.status} = 'Called')`.as("total_called"),
         totalDone: (0, _drizzleorm.sql)`COUNT(*) FILTER (WHERE ${_queueschema.queues.status} = 'Done')`.as("total_done"),
@@ -56,10 +56,10 @@ const queueStatsByStaff = (0, _pgcore.pgMaterializedView)("queue_stats_by_staff"
         lastUpdated: (0, _drizzleorm.sql)`NOW()`.as("last_updated")
     }).from(_masterschema.staff).leftJoin(_queueschema.queues, (0, _drizzleorm.sql)`${_queueschema.queues.staffId} = ${_masterschema.staff.id} AND DATE(${_queueschema.queues.createdAt}) = CURRENT_DATE`).where((0, _drizzleorm.eq)(_masterschema.staff.isActive, true)).groupBy(_masterschema.staff.id, _masterschema.staff.code, _masterschema.staff.name));
 const staffPerformance = (0, _pgcore.pgMaterializedView)("staff_performance").as((qb)=>qb.select({
-        staffId: (0, _drizzleorm.sql)`{staff.id}`.as("staff_id"),
-        staffCode: (0, _drizzleorm.sql)`{staff.code}`.as("staff_code"),
-        staffName: (0, _drizzleorm.sql)`{staff.name}`.as("staff_name"),
-        loketNumber: (0, _drizzleorm.sql)`{staff.loketNumber}`.as("loket_number"),
+        staffId: (0, _drizzleorm.sql)`${_masterschema.staff.id}`.as("staff_id"),
+        staffCode: (0, _drizzleorm.sql)`${_masterschema.staff.code}`.as("staff_code"),
+        staffName: (0, _drizzleorm.sql)`${_masterschema.staff.name}`.as("staff_name"),
+        loketNumber: (0, _drizzleorm.sql)`${_masterschema.staff.loketNumber}`.as("loket_number"),
         clinicName: (0, _drizzleorm.sql)`${_masterschema.clinics.name}`.as("clinic_name"),
         totalServed: (0, _drizzleorm.sql)`COUNT(${_queueschema.queues.id})`.as("total_served"),
         avgServiceTimeMinutes: (0, _drizzleorm.sql)`

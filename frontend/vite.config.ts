@@ -13,7 +13,7 @@ export default defineConfig({
   },
   server: {
     host: true, // PENTING: Agar bisa diakses dari luar container
-    port: 5173,
+    port: 3000,
     watch: {
       usePolling: true, // PENTING: Untuk file watching di Docker
     },

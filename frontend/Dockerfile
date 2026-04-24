@@ -2,19 +2,13 @@ FROM node:20-alpine
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
-WORKDIR /workspace
-
-COPY pnpm-workspace.yaml ./
-COPY package.json ./
-COPY pnpm-lock.yaml ./
-
 WORKDIR /workspace/frontend
 
-COPY frontend/package.json frontend/
+COPY frontend/package.json ./
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install
 
-COPY frontend frontend/
+COPY frontend ./s
 
 EXPOSE 3000
 
